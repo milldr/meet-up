@@ -6,8 +6,10 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_settings_fragment" />
+        android:layout_width="198dp"
+        android:layout_height="266dp"
+        android:layout_gravity="center"
+        android:text="@string/hello_settings_fragment"
+        android:id="@+id/textView" />
 
 </FrameLayout>
