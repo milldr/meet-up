@@ -1,4 +1,4 @@
-package com.example.daniel.meet_up;
+package com.cse5236.meet_up;
 
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +14,11 @@ import android.content.res.Configuration;
 import android.app.FragmentManager;
 import android.app.Fragment;
 
+import com.example.daniel.meet_up.R;
+
 public class MainActivity extends AppCompatActivity
-    implements CalendarFragment.OnFragmentInteractionListener {
+    implements CalendarFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener,
+    GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener{
 
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity
         // set a toggle for the navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        //initialize opening fragment
+        selectItem(0);
     }
 
     private void addDrawerItems() {
@@ -59,7 +65,25 @@ public class MainActivity extends AppCompatActivity
 
     private void selectItem(int position) {
         // specify the new fragment
-        Fragment fragment = new CalendarFragment();
+        Fragment fragment;
+        switch (position){
+            case(0):
+                fragment = new MainFragment();
+                break;
+            case(1):
+                fragment = new CalendarFragment();
+                break;
+            case(2):
+                fragment = new GroupsFragment();
+                break;
+            case(3):
+                fragment = new SettingsFragment();
+                break;
+            default:
+                fragment = new MainFragment();
+                break;
+        }
+
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
