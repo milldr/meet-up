@@ -1,6 +1,6 @@
 package com.example.daniel.meet_up;
 
-import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -10,16 +10,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.content.res.Configuration;
+import android.app.FragmentManager;
+import android.app.Fragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+    implements CalendarFragment.OnFragmentInteractionListener {
 
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
+    private String[] mFragmentTitles = { "Home", "Calendar", "Groups", "Settings"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // initialize the list for navigation
-        mDrawerList = (ListView)findViewById(R.id.navList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView)findViewById(R.id.navList);
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         // fill the list of items in the navigation
@@ -37,23 +41,43 @@ public class MainActivity extends AppCompatActivity {
         // set a toggle for the navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
 
     private void addDrawerItems() {
         // define the list of items (pages) in the navigation
-        String[] osArray = { "Home", "Calendar", "Groups", "Settings"};
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mFragmentTitles);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // response to an item being clicked
-                Toast.makeText(MainActivity.this, "You clicked it. Congrats", Toast.LENGTH_SHORT).show();
+                selectItem(position);
             }
+
         });
     }
+
+    private void selectItem(int position) {
+        // specify the new fragment
+        Fragment fragment = new CalendarFragment();
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        //setTitle(mFragmentTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    public void setTitle(String title) {
+        mActivityTitle = title;
+        getActionBar().setTitle(mActivityTitle);
+    }
+
 
     private void setupDrawer() {
 
@@ -108,4 +132,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri){
+    }
 }
