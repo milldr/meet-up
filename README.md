@@ -33,6 +33,7 @@ The app is relatively lightweight, as you can see in the screenshot below.
 
 ### Lifecycle Management
 The app successfully handles the lifecycle of android applications. The log shows each method being called. See the screenshot below.
+
 ![Lifecycle Log](/doc/path)
 
 
