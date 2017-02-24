@@ -13,6 +13,7 @@
 
 ### Installing
 At this time, the app has only been tested on the virtual emulator.
+
 1. Clone the repository
 2. Open it in Android Studio
 3. Build the app
