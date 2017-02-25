@@ -19,17 +19,18 @@ At this time, the app has only been tested on the virtual emulator.
 3. Build the app
 4. Run on your chosen emulator
 
-![Installing](/doc/path)
+![Installing](/screenshots/app1.png)
+![Installing](/screenshots/app2.png)
 
 ### Debugging
 We can debug the app using the built in debugger in Android Studio. See an example below.
 
-![Debugger](path)
+![Debugger](/screenshots/debugging.png)
 
 ### Profiling
 The app is relatively lightweight, as you can see in the screenshot below.
 
-![Profiling](/doc/path)
+![Profiling](/screenshots/profiling.png)
 
 ### Lifecycle Management
 The app successfully handles the lifecycle of android applications. The log shows each method being called. See the screenshot below.
