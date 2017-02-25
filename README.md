@@ -28,7 +28,7 @@ We can debug the app using the built in debugger in Android Studio. See an examp
 ![Debugger](/screenshots/debugging.png)
 
 ### Profiling
-The app is relatively lightweight, as you can see in the screenshot below.
+The app is relatively lightweight, as you can see in the screenshot below. Note: app began running just before 1m 40s.
 
 ![Profiling](/screenshots/profiling.png)
 
