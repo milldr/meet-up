@@ -1,4 +1,4 @@
-package com.cse5236.meet_up;
+package com.cse5236.meet_up.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.cse5236.meet_up.R;
 
 /**
  * A simple {@link Fragment} subclass.

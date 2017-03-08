@@ -15,6 +15,11 @@ import android.content.res.Configuration;
 import android.app.FragmentManager;
 import android.app.Fragment;
 
+import com.cse5236.meet_up.fragments.CalendarFragment;
+import com.cse5236.meet_up.fragments.GroupsFragment;
+import com.cse5236.meet_up.fragments.MainFragment;
+import com.cse5236.meet_up.fragments.SettingsFragment;
+
 public class MainActivity extends AppCompatActivity
     implements CalendarFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener,
     GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener{
@@ -191,13 +196,5 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri){
     }
-
-    //TODO
-    /* onStart() - Restore transient state or other one-time processing */
-    /* onResume() - Session-specific processing, restore transient state */
-    /* onPause() - Save persistent data, release resources, quickly! Last method guaranteed to be called. */
-    /* onStop() - Called optionally by runtime  */
-    /* onDestroy() - If finish() is called, or object is being temporarily destroyed. Use isFinishing() to distinguish */
-    /* onRestart() */
 
 }
