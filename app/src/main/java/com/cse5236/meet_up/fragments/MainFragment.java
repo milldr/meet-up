@@ -1,23 +1,27 @@
 package com.cse5236.meet_up.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cse5236.meet_up.R;
+
+
 import com.cse5236.meet_up.classes.Group;
+import com.cse5236.meet_up.classes.Helpers;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.User;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.name;
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +32,7 @@ import static android.R.attr.name;
  * create an instance of this fragment.
  */
 public class MainFragment extends Fragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -114,5 +119,57 @@ public class MainFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+        // ***********************    EXAMPLE OF HOW TO SAVE / GET OBJECTS      ***********************
+
+        Log.d(TAG, "onStart() of MainFragment...");
+
+        // context needed for db
+        Context ctx = this.getActivity();
+
+        // create example user
+        String name = "test mctestface";
+        List<String> groups = new ArrayList<>();
+        List<String> meetups = new ArrayList<>();
+
+        // create the user objects first
+        User user = new User(1, name, groups, meetups);
+        Helpers.setUser(ctx, user);
+        User user2 = new User(2, "test2", groups, meetups);
+        Helpers.setUser(ctx, user2);
+
+ /*       Log.d(TAG, user.getName());
+        Log.d(TAG, user2.getName());
+
+        // test getting it back
+        User user3 = Helpers.getUser(ctx, ""+1);
+        Log.d(TAG, user3.getName());
+        User user4 = Helpers.getUser(ctx, ""+2);
+        Log.d(TAG, user4.getName());*/
+
+        // groups
+        List<String> userKeyList = new ArrayList<>();
+        userKeyList.add(""+user.getId());
+        userKeyList.add(""+user2.getId());
+
+        Group group = new Group(3, "test group", "testing group description", userKeyList);
+        Helpers.setGroup(ctx, group);
+        Log.d(TAG, group.getName());
+        // test getting users from groups
+        for (String userKey : group.getUsers()){
+            Log.d(TAG, userKey);
+            User usertest = Helpers.getUser(ctx, userKey);
+            Log.d(TAG, usertest.getName());
+        }
+
+        Group check = Helpers.getGroup(ctx, ""+3);
+        Log.d(TAG, check.getName());
+
     }
 }

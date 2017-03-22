@@ -1,5 +1,8 @@
 package com.cse5236.meet_up.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by daniel on 3/8/17.
  */
@@ -8,13 +11,16 @@ public class Group {
     private int id; // used for object storage
     private String name;
     private String description;
+    private List<String> users; // list of keys of users in group
+
 
     /** Constructor */
-    public Group(int id, String name, String description){
+    public Group(int id, String name, String description, List<String> users){
         this.id = id;
         this.name = name;
         this.description = description;
-    }
+        this.users = new ArrayList<>();
+        this.users.addAll(users);    }
 
 /*  Id cannot be changed
     public void setId(int id) {
@@ -40,5 +46,13 @@ public class Group {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<String> getUsers() {
+        return users;
+    }
+
+    public void addUser(String userKey) {
+        this.users.add(userKey);
     }
 }

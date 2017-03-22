@@ -10,11 +10,11 @@ import java.util.List;
 public class User {
     private int id; // used for object storage
     private String name;
-    private List<Group> groups;
-    private List<Meetup> meetups;
+    private List<String> groups; // list of keys for associated groups
+    private List<String> meetups;   // list of keys for associated meetups
 
     /** Constructor */
-    public User(int id, String name, List<Group> groups, List<Meetup> meetups){
+    public User(int id, String name, List<String> groups, List<String> meetups){
         this.id = id;
         this.name = name;
         this.groups = new ArrayList<>();
@@ -41,19 +41,19 @@ public class User {
         this.name = name;
     }
 
-    public List<Group> getGroups() {
+    public List<String> getGroupKeys() {
         return groups;
     }
 
-    public void addGroup(Group group) {
-        this.groups.add(group);
+    public void addGroup(String groupKey) {
+        this.groups.add(groupKey);
     }
 
-    public List<Meetup> getMeetups() {
+    public List<String> getMeetupKeys() {
         return meetups;
     }
 
-    public void addMeetup(Meetup meetup) {
-        this.meetups.add(meetup);
+    public void addMeetup(String meetupKey) {
+        this.meetups.add(meetupKey);
     }
 }
