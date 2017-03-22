@@ -8,14 +8,14 @@ import java.sql.Date;
  */
 
 public class Meetup {
-    private int id; // used for object storage
+    private String id; // used for object storage
     private String name;
     private String description;
     private Date date;
     private Time time;
 
     /** Constructor */
-    public Meetup(int id, String name, String description, Date date, Time time){
+    public Meetup(String id, String name, String description, Date date, Time time){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,7 +29,7 @@ public class Meetup {
     }*/
 
     // getters and setters here...
-    public int getId(){
+    public String getId(){
         return this.id;
     }
 

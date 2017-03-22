@@ -139,26 +139,26 @@ public class MainFragment extends Fragment {
         List<String> meetups = new ArrayList<>();
 
         // create the user objects first
-        User user = new User(1, name, groups, meetups);
+        User user = new User("1", name, groups, meetups);
         Helpers.setUser(ctx, user);
-        User user2 = new User(2, "test2", groups, meetups);
+        User user2 = new User("2", "test2", groups, meetups);
         Helpers.setUser(ctx, user2);
 
  /*       Log.d(TAG, user.getName());
         Log.d(TAG, user2.getName());
 
         // test getting it back
-        User user3 = Helpers.getUser(ctx, ""+1);
+        User user3 = Helpers.getUser(ctx, "1");
         Log.d(TAG, user3.getName());
-        User user4 = Helpers.getUser(ctx, ""+2);
+        User user4 = Helpers.getUser(ctx, "2");
         Log.d(TAG, user4.getName());*/
 
         // groups
         List<String> userKeyList = new ArrayList<>();
-        userKeyList.add(""+user.getId());
-        userKeyList.add(""+user2.getId());
+        userKeyList.add(user.getId());
+        userKeyList.add(user2.getId());
 
-        Group group = new Group(3, "test group", "testing group description", userKeyList);
+        Group group = new Group("3", "test group", "testing group description", userKeyList);
         Helpers.setGroup(ctx, group);
         Log.d(TAG, group.getName());
         // test getting users from groups
@@ -168,7 +168,7 @@ public class MainFragment extends Fragment {
             Log.d(TAG, usertest.getName());
         }
 
-        Group check = Helpers.getGroup(ctx, ""+3);
+        Group check = Helpers.getGroup(ctx, "3");
         Log.d(TAG, check.getName());
 
     }

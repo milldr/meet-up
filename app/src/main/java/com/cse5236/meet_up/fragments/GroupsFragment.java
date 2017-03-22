@@ -129,12 +129,12 @@ public class GroupsFragment extends Fragment {
         // context needed for db
         Context ctx = this.getActivity();
 
-        User user3 = Helpers.getUser(ctx, ""+1);
+        User user3 = Helpers.getUser(ctx, "1");
         Log.d(TAG, user3.getName());
-        User user4 = Helpers.getUser(ctx, ""+2);
+        User user4 = Helpers.getUser(ctx, "2");
         Log.d(TAG, user4.getName());
 
-        Group check = Helpers.getGroup(ctx, ""+3);
+        Group check = Helpers.getGroup(ctx, "3");
         Log.d(TAG, check.getName());
 
     }

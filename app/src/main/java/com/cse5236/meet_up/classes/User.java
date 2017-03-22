@@ -8,13 +8,13 @@ import java.util.List;
  */
 
 public class User {
-    private int id; // used for object storage
+    private String id; // used for object storage
     private String name;
     private List<String> groups; // list of keys for associated groups
     private List<String> meetups;   // list of keys for associated meetups
 
     /** Constructor */
-    public User(int id, String name, List<String> groups, List<String> meetups){
+    public User(String id, String name, List<String> groups, List<String> meetups){
         this.id = id;
         this.name = name;
         this.groups = new ArrayList<>();
@@ -29,7 +29,7 @@ public class User {
     }*/
 
     // getters and setters here...
-    public int getId(){
+    public String getId(){
         return this.id;
     }
 
