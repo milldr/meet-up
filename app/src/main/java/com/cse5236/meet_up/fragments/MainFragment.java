@@ -1,6 +1,5 @@
 package com.cse5236.meet_up.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.cse5236.meet_up.R;
 
@@ -31,7 +31,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,8 +78,18 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        // Create buttons and on click listeners
+        Button committedBtn = (Button) view.findViewById(R.id.committed_meetups);
+        committedBtn.setOnClickListener(this);
+        Button tentativeBtn = (Button) view.findViewById(R.id.tentative_meetups);
+        tentativeBtn.setOnClickListener(this);
+        Button pendingBtn = (Button) view.findViewById(R.id.pending_meetups);
+        pendingBtn.setOnClickListener(this);
+        Button pastBtn = (Button) view.findViewById(R.id.past_meetups);
+        pastBtn.setOnClickListener(this);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -171,5 +181,31 @@ public class MainFragment extends Fragment {
         Group check = Helpers.getGroup(ctx, "3");
         Log.d(TAG, check.getName());
 
+    }
+
+    /**
+     * Responds to clicks on each button in the fragment.
+     * When a click is detected, replaces the content with the appropriate fragment.
+     * @param view
+     */
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.committed_meetups:
+                //open page containing committed meetups or display committed meetups
+                break;
+            case R.id.tentative_meetups:
+                //open page containing tentative meetups or display
+                break;
+            case R.id.pending_meetups:
+                //open page containing pending meetups or display
+                break;
+            case R.id.past_meetups:
+                //open page containing past meetups or display
+                break;
+            default:
+                //do nothing
+                break;
+        }
     }
 }

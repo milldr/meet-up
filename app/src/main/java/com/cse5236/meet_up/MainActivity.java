@@ -14,6 +14,9 @@ import android.widget.ListView;
 import android.content.res.Configuration;
 import android.app.FragmentManager;
 import android.app.Fragment;
+import android.app.AlertDialog;
+import android.widget.EditText;
+import android.content.DialogInterface;
 
 import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
@@ -54,6 +57,11 @@ public class MainActivity extends AppCompatActivity
 
         //initialize opening fragment
         selectItem(0);
+        Fragment fragment = new MainFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
     }
 
     @Override
@@ -188,6 +196,17 @@ public class MainActivity extends AppCompatActivity
         // Activate the navigation drawer toggle
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
+        } else if (id == R.id.add_meetup) {
+            //create a new meetup
+        } else if (id == R.id.add_group) {
+            //create a new group
+        } else if (id == R.id.settings) {
+            //go to settings
+            Fragment fragment = new SettingsFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
         }
 
         return super.onOptionsItemSelected(item);
@@ -196,5 +215,4 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri){
     }
-
 }
