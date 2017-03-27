@@ -17,6 +17,8 @@ import android.app.Fragment;
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.content.DialogInterface;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
@@ -147,6 +149,12 @@ public class MainActivity extends AppCompatActivity
         getActionBar().setTitle(mActivityTitle);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
     private void setupDrawer() {
 
