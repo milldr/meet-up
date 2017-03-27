@@ -10,12 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cse5236.meet_up.R;
-import com.cse5236.meet_up.classes.Group;
-import com.cse5236.meet_up.classes.Helpers;
-import com.cse5236.meet_up.classes.Meetup;
+import com.cse5236.meet_up.classes.DatabaseHandler;
 import com.cse5236.meet_up.classes.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -64,6 +61,8 @@ public class GroupsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "GroupFragment created");
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -76,6 +75,7 @@ public class GroupsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_groups, container, false);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -126,16 +126,16 @@ public class GroupsFragment extends Fragment {
 
         Log.d(TAG, "onStart() of GroupsFragment...");
 
-        // context needed for db
-        Context ctx = this.getActivity();
+        // Reading all users
+        Log.d("Reading: ", "Reading all users..");
+        DatabaseHandler db = new DatabaseHandler(this.getActivity());
+        List<User> users = db.getAllUsers();
 
-        User user3 = Helpers.getUser(ctx, "1");
-        Log.d(TAG, user3.getName());
-        User user4 = Helpers.getUser(ctx, "2");
-        Log.d(TAG, user4.getName());
-
-        Group check = Helpers.getGroup(ctx, "3");
-        Log.d(TAG, check.getName());
+        for (User u : users) {
+            String log = "Id: " + u.getId() + " ,Name: " + u.getName() + " ,Email: " + u.getEmail() + " ,Password: " + u.getPassword();
+            // Writing Contacts to log
+            Log.d("Name: ", log);
+        }
 
     }
 }

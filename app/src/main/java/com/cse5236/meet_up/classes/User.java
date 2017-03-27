@@ -8,28 +8,38 @@ import java.util.List;
  */
 
 public class User {
-    private String id; // used for object storage
+    private int id; // used for object storage
     private String name;
-    private List<String> groups; // list of keys for associated groups
-    private List<String> meetups;   // list of keys for associated meetups
+    private String email;
+    private String password;
 
     /** Constructor */
-    public User(String id, String name, List<String> groups, List<String> meetups){
-        this.id = id;
-        this.name = name;
-        this.groups = new ArrayList<>();
-        this.meetups = new ArrayList<>();
-        this.groups.addAll(groups);
-        this.meetups.addAll(meetups);
+    public User(){
+
     }
 
-/*  Id cannot be changed
-    public void setId(int id) {
+    public User(int id, String name, String email, String password){
         this.id = id;
-    }*/
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String name, String email, String password){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    // custom methods
 
     // getters and setters here...
-    public String getId(){
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId(){
         return this.id;
     }
 
@@ -41,19 +51,20 @@ public class User {
         this.name = name;
     }
 
-    public List<String> getGroupKeys() {
-        return groups;
+    public String getEmail() {
+        return email;
     }
 
-    public void addGroup(String groupKey) {
-        this.groups.add(groupKey);
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public List<String> getMeetupKeys() {
-        return meetups;
+    public String getPassword() {
+        return password;
     }
 
-    public void addMeetup(String meetupKey) {
-        this.meetups.add(meetupKey);
+    public void setPassword(String password) {
+        this.password = password;
     }
+
 }
