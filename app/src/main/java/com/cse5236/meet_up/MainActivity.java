@@ -121,35 +121,63 @@ public class MainActivity extends AppCompatActivity
     private void selectItem(int position) {
         // specify the new fragment
         Fragment fragment;
+        FragmentManager fragmentManager = getFragmentManager();
         switch (position){
             case(0):
                 fragment = new MainFragment();
+                // Insert the fragment by replacing any existing fragment
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+
+                // Highlight the selected item, update the title, and close the drawer
+                mDrawerList.setItemChecked(position, true);
+                //setTitle(mFragmentTitles[position]);
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
             case(1):
-                fragment = new CalendarFragment();
+                Intent intent = new Intent(this, CalendarActivity.class);
+                startActivity(intent);
                 break;
             case(2):
                 fragment = new GroupsFragment();
+                // Insert the fragment by replacing any existing fragment
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+                // Highlight the selected item, update the title, and close the drawer
+                mDrawerList.setItemChecked(position, true);
+                //setTitle(mFragmentTitles[position]);
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
             case(3):
                 fragment = new SettingsFragment();
+                // Insert the fragment by replacing any existing fragment
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+
+                // Highlight the selected item, update the title, and close the drawer
+                mDrawerList.setItemChecked(position, true);
+                //setTitle(mFragmentTitles[position]);
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
             default:
                 fragment = new MainFragment();
+                // Insert the fragment by replacing any existing fragment
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+
+                // Highlight the selected item, update the title, and close the drawer
+                mDrawerList.setItemChecked(position, true);
+                //setTitle(mFragmentTitles[position]);
+                mDrawerLayout.closeDrawer(mDrawerList);
                 break;
         }
 
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
 
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        //setTitle(mFragmentTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     public void setTitle(String title) {
