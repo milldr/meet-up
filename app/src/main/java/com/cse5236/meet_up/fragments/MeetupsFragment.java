@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.DatePickerFragment;
+import com.cse5236.meet_up.classes.TimePickerFragment;
 
 import java.util.Date;
 
@@ -35,10 +37,13 @@ public class MeetupsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_TIME = "DialogTime";
+    private static final int REQUEST_TIME = 1;
     private static final int MEETUP_DATE = 0;
     private Meetup mMeetup;
     private EditText mTitleField;
     private Button mDateButton;
+    private Button mTimeButton;
     private Button mAttendingCheckBox;
     private Button mNotAttendingCheckBox;
 
@@ -101,7 +106,7 @@ public class MeetupsFragment extends Fragment {
         });
 
         mDateButton = (Button)v.findViewById(R.id.meetup_date);
-        mDateButton.setText(mMeetup.getDate().toString());
+        updateDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +115,18 @@ public class MeetupsFragment extends Fragment {
                         .newInstance(mMeetup.getDate());
                 dialog.setTargetFragment(MeetupsFragment.this, MEETUP_DATE);
                 dialog.show(manager, DIALOG_DATE);
+            }
+        });
+
+        mTimeButton = (Button) v.findViewById(R.id.meetup_time);
+        updateTime();
+        mTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerFragment dialog = TimePickerFragment.newInstance(mMeetup.getDate());
+                FragmentManager manager = getFragmentManager();
+                dialog.setTargetFragment(MeetupsFragment.this, REQUEST_TIME);
+                dialog.show(manager, DIALOG_TIME);
             }
         });
 
@@ -136,14 +153,19 @@ public class MeetupsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK)
             return;
-        }
-        if (requestCode == MEETUP_DATE) {
-            Date date = (Date) data
-                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mMeetup.setDate(date);
-            mDateButton.setText(mMeetup.getDate().toString());
+
+        Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+        mMeetup.setDate(date);
+
+        switch (requestCode) {
+            case MEETUP_DATE:
+                updateDate();
+                break;
+            case REQUEST_TIME:
+                updateTime();
+                break;
         }
     }
 
@@ -170,6 +192,15 @@ public class MeetupsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    private void updateDate() {
+        mDateButton.setText(DateFormat.format("EEEE, MMMM d, yyyyy", mMeetup.getDate()));
+    }
+
+    private void updateTime() {
+        mTimeButton.setText(DateFormat.format("h:mm a", mMeetup.getDate()));
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

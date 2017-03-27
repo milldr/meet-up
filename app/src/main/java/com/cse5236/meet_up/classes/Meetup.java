@@ -15,7 +15,6 @@ public class Meetup {
     private String name;
     private String description;
     private Date date;
-    private Time time;
     private List<String> users;
     private boolean attending;
 
@@ -68,14 +67,6 @@ public class Meetup {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
     }
 
     public List<String> getUsers() {

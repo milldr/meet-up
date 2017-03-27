@@ -4,11 +4,16 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <string name="meetup_title_hint">Enter a name for the meetup.</string>
-    <string name="meetup_title_label">Title</string>
+    <string name="meetup_title_label">Name</string>
+    <string name="meetup_search_userlabel">Search to Add Users</string>
+    <string name="meetup_search_grouplabel">Search to Add Groups</string>
     <string name="meetup_details_label">Details</string>
     <string name="attending_button">Attending</string>
     <string name="nattending_button">Not Attending</string>
     <string name="date_picker_title">Date of meetup:</string>
+    <string name="app_label">Meet-up</string>
+    <string name="search_hint_users">Search for users</string>
+    <string name="search_hint_groups">Search for groups</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_main_fragment">Hello MAIN fragment</string>
     <string name="hello_calendar_fragment">Hello CALENDAR fragment</string>
@@ -18,5 +23,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_meetups_fragment">Hello Meetups</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>
