@@ -14,20 +14,18 @@ import android.widget.ListView;
 import android.content.res.Configuration;
 import android.app.FragmentManager;
 import android.app.Fragment;
-import android.app.AlertDialog;
-import android.widget.EditText;
-import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MainFragment;
+import com.cse5236.meet_up.fragments.MeetupsFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
     implements CalendarFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener,
-    GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener{
+    GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
     private ListView mDrawerList;
@@ -205,6 +203,11 @@ public class MainActivity extends AppCompatActivity
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         } else if (id == R.id.add_meetup) {
+            Fragment fragment = new MeetupsFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
             //create a new meetup
         } else if (id == R.id.add_group) {
             //create a new group
