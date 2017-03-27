@@ -23,14 +23,11 @@ public class MeetupList {
     }
     private MeetupList(Context context) {
         mMeetups = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            Meetup meetup = new Meetup();
-            meetup.setName("meetup #" + i);
-            meetup.setAttending(i % 2 == 0); // Every other one
-            mMeetups.add(meetup);
-        }
     }
 
+    public void addMeetup(Meetup c) {
+        mMeetups.add(c);
+    }
     public List<Meetup> getMeetups() {
         return mMeetups;
     }

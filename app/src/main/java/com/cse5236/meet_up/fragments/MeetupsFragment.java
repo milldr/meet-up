@@ -79,13 +79,13 @@ public class MeetupsFragment extends Fragment {
         return fragment;
     }
 
-    /**public static MeetupsFragment newInstance(UUID meetupId) {
+    public static MeetupsFragment newInstance(UUID meetupId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_MEETUP_ID, meetupId);
         MeetupsFragment fragment = new MeetupsFragment();
         fragment.setArguments(args);
         return fragment;
-    }*/
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
