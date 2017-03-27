@@ -2,50 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cse5236.meet_up.fragments.MainFragment">
+    tools:context="com.cse5236.meet_up.fragments.MeetupListFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-
-    <Button
-        android:text="Pending Meetups"
-        android:layout_height="wrap_content"
-        android:id="@+id/pending_meetups"
-        android:layout_marginTop="250dp"
-        android:layout_marginLeft="80dp"
-        android:background="#3377FF"
-        android:layout_width="210dp"
-        android:textAllCaps="false" />
-
-    <Button
-        android:text="Past Meetups"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_meetups"
-        android:layout_marginTop="350dp"
-        android:layout_marginLeft="80dp"
-        android:background="#3377FF"
-        android:layout_width="210dp"
-        android:textAllCaps="false" />
-
-    <Button
-        android:text="Tentative Meetups"
-        android:layout_height="wrap_content"
-        android:id="@+id/tentative_meetups"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="80dp"
-        android:background="#3377FF"
-        android:layout_width="210dp"
-        android:textAllCaps="false" />
-
-    <Button
-        android:text="Committed Meetups"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/committed_meetups"
-        android:elevation="0dp"
-        android:background="#3377FF"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="80dp"
-        android:textAllCaps="false" />
 
 </FrameLayout>
