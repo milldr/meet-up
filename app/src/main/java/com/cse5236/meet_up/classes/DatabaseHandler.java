@@ -24,14 +24,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Database Name
     private static final String DATABASE_NAME = "databaseManager";
 
-    // Contacts table name
-    private static final String TABLE_CONTACTS = "users";
+    // Table names
+    private static final String TABLE_USERS = "users";
+    private static final String TABLE_GROUPS = "groups";
+    private static final String TABLE_USERGROUP = "user group";
 
-    // Contacts Table Columns names
+
+    // Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
+    private static final String KEY_DESCRIPTION = "description";
+    private static final String KEY_USERKEYS = "user keys";
+
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,23 +46,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
+        // USERS
+        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_EMAIL + " TEXT," + KEY_PASSWORD + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_USERS_TABLE);
+
+        // GROUPS
+        String CREATE_GROUPS_TABLE = "CREATE TABLE " + TABLE_GROUPS + "("
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
+                + KEY_DESCRIPTION + " TEXT," + KEY_USERKEYS + " TEXT" + ")";
+        db.execSQL(CREATE_GROUPS_TABLE);
+
+        // GROUPS
+        String CREATE_USERGROUP_TABLE = "CREATE TABLE " + TABLE_GROUPS + "("
+                + KEY_ID + " INTEGER FOREIGN KEY," + KEY_ID + " TEXT" + ")";
+        db.execSQL(CREATE_USERGROUP_TABLE);
+
+        // MEETUPS
+        // TODO
     }
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
 
         // Create tables again
         onCreate(db);
     }
 
-    // CRUD methods
+    /* ------------------------ USERS CRUD methods  ------------------------ */
 
     // Adding new user
     public void addUser(User user) {
@@ -68,7 +90,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_PASSWORD, user.getPassword());
 
         // Inserting Row
-        db.insert(TABLE_CONTACTS, null, values);
+        db.insert(TABLE_USERS, null, values);
         db.close(); // Closing database connection
     }
 
@@ -76,7 +98,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public User getUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
+        Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_ID,
                         KEY_NAME, KEY_EMAIL, KEY_PASSWORD }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
@@ -103,7 +125,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<User>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String selectQuery = "SELECT  * FROM " + TABLE_USERS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -127,7 +149,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Getting users Count
     public int getUserCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String countQuery = "SELECT  * FROM " + TABLE_USERS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
@@ -147,15 +169,103 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
+        return db.update(TABLE_USERS, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(user.getId()) });
     }
 
     // Deleting single user
     public void deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
+        db.delete(TABLE_USERS, KEY_ID + " = ?",
                 new String[] { String.valueOf(user.getId()) });
+        db.close();
+    }
+
+    /* ------------------------ GROUPS CRUD methods  ------------------------ */
+
+    // Adding new group
+    public void addGroup(Group group) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, group.getName());
+        values.put(KEY_DESCRIPTION, group.getDescription());
+
+        // Inserting Row
+        db.insert(TABLE_GROUPS, null, values);
+        db.close(); // Closing database connection
+    }
+
+    // Getting single group
+    public Group getGroup(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_GROUPS, new String[] { KEY_ID,
+                        KEY_NAME, KEY_DESCRIPTION}, KEY_ID + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Group group = new Group(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+        // return contact
+        return group;
+    }
+
+    // Getting All groups
+    public List<Group> getAllGroup() {
+        List<Group> groupList = new ArrayList<Group>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_GROUPS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Group group = new Group();
+                group.setId(Integer.parseInt(cursor.getString(0)));
+                group.setName(cursor.getString(1));
+                group.setDescription(cursor.getString(2));
+                // Adding contact to list
+                groupList.add(group);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return groupList;
+    }
+
+    // Getting groups Count
+    public int getGroupCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_GROUPS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        return cursor.getCount();
+    }
+
+    // Updating single user
+    public int updateGroup(Group group) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, group.getName());
+        values.put(KEY_DESCRIPTION, group.getDescription());
+
+
+        // updating row
+        return db.update(TABLE_GROUPS, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(group.getId()) });
+    }
+
+    // Deleting single user
+    public void deleteGroup(Group group) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GROUPS, KEY_ID + " = ?",
+                new String[] { String.valueOf(group.getId()) });
         db.close();
     }
 }
