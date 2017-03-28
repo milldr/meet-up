@@ -33,9 +33,9 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView = (CalendarView) findViewById(R.id.calendarView);
         dateDisplay = (TextView) findViewById(R.id.date_display);
         dateDisplay.setText("Date: ");
-        DatabaseHandler db = new DatabaseHandler(this);
         //waiting for working getAllMeetups() method to utilize this and the commented methods in setOnDateChangeListener
-        //List<Meetup> meets = db.getAllMeetups();
+        MeetupList meetupList = MeetupList.get(this);
+        final List<Meetup> meets = meetupList.getMeetups();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -43,13 +43,13 @@ public class CalendarActivity extends AppCompatActivity {
                 Date d;
                 String events = "";
                 d = new GregorianCalendar(i, i1, i2).getTime();
-//                for (Meetup meet : meets) {
-//                    if (meet.getDate().equals(d)) {
-//                        events += meet.getName();
-//                        events += ",";
-//                    }
-//                }
-                dateDisplay.setText("Date: " + i1 + " / " + i2 + " / " + i + "\n" + "Events:\n");
+                for (Meetup meet : meets) {
+                    if (meet.getDate().equals(d)) {
+                        events += meet.getName();
+                        events += ",";
+                    }
+                }
+                dateDisplay.setText("Date: " + i1 + " / " + i2 + " / " + i + "\n" + "Events:\n" + events + "\n");
                 //TODO: Add events for the selected date to dateDisplay
                 Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();
             }

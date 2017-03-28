@@ -121,6 +121,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.logout_button:
                 Intent intent = new Intent(this.getActivity(), LoginActivity.class);
+                startActivity(intent);
         }
     }
 }
