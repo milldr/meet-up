@@ -9,33 +9,38 @@
 #### CSE 5236 - Mobile Apps
 
 ------
-## Part 3
+## Part 4
 
-### Installing
-At this time, the app has only been tested on the virtual emulator.
+### Running
+Screenshots are from emulator.
 
 1. Clone the repository
 2. Open it in Android Studio
 3. Build the app
-4. Run on your chosen emulator
+4. Run on your chosen emulator (or physical device).
 
 ![Installing](/screenshots/app1.png)
 ![Installing](/screenshots/app2.png)
 
-### Debugging
-We can debug the app using the built in debugger in Android Studio. See an example below.
+### Use Cases
+Accounts:
+	Account creation- User can create an account.
+	Deletion from group- User can be removed from group.
+Groups:
+	Group creation- User can create a group.
+	Add member- User can add a member to a group
+	Leave group- User can leave group.
+Meetups:
+	Meetup creation- User can create a meetup.
+	Meetup joining- User can join a meetup.
+	Meetup leaving- User can leave a meetup.
 
-![Debugger](/screenshots/debugging.png)
 
-### Profiling
-The app is relatively lightweight, as you can see in the screenshot below. Note: app began running just before 1m 40s.
+
+### Screenshots
+
 
 ![Profiling](/screenshots/profiling.png)
-
-### Lifecycle Management
-The app successfully handles the lifecycle of android applications. The log shows each method being called. See the screenshot below.
-
-![Lifecycle Log](/screenshots/logs.png)
 
 
 ------
