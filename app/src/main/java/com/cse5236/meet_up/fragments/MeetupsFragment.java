@@ -91,9 +91,16 @@ public class MeetupsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID meetupId = (UUID) getActivity().getIntent()
-                .getSerializableExtra(MeetupActivity.EXTRA_CRIME_ID);
+                .getSerializableExtra(MeetupActivity.EXTRA_MEETUP_ID);
         mMeetup = MeetupList.get(getActivity()).getMeetup(meetupId);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MeetupList.get(getActivity())
+                .updateMeetup(mMeetup);
     }
 
     @Override

@@ -44,11 +44,11 @@ public class MeetupActivity extends AppCompatActivity
 
     private RequestQueue requestQueue;
 
-    public static final String EXTRA_CRIME_ID =
+    public static final String EXTRA_MEETUP_ID =
             "com.cse5223.meetup.meetup_id";
-    public static Intent newIntent(Context packageContext, UUID crimeId) {
+    public static Intent newIntent(Context packageContext, UUID meetupId) {
         Intent intent = new Intent(packageContext, MeetupActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        intent.putExtra(EXTRA_MEETUP_ID, meetupId);
         return intent;
     }
 

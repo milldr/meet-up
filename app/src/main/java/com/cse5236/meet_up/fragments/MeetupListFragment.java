@@ -105,6 +105,7 @@ public class MeetupListFragment extends Fragment {
         mAdapter = new MeetupAdapter(meetups);
         mMeetupRecyclerView.setAdapter(mAdapter);
         } else {
+            mAdapter.setMeetups(meetups);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -160,7 +161,12 @@ public class MeetupListFragment extends Fragment {
         }
         @Override
         public int getItemCount() {
+
             return mMeetups.size();
+        }
+
+        public void setMeetups(List<Meetup> meetups) {
+            mMeetups = meetups;
         }
     }
 
