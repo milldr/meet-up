@@ -72,8 +72,9 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO how to specify current user
-        DatabaseHandler db = new DatabaseHandler(this);
+        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
         User user = db.getUser(email, password);
+        db.close();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

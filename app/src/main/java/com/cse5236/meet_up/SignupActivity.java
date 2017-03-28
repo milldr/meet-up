@@ -74,8 +74,9 @@ public class SignupActivity extends AppCompatActivity {
 
         // create the user
         Log.d("Insert: ", "Inserting new user");
-        DatabaseHandler db = new DatabaseHandler(this);
+        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
         db.addUser(new User(name, email, password));
+        db.close();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

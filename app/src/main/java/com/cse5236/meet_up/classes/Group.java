@@ -8,27 +8,32 @@ import java.util.List;
  */
 
 public class Group {
-    private String id; // used for object storage
+    private long id; // used for object storage
     private String name;
     private String description;
-    private List<String> users; // list of keys of users in group
-
 
     /** Constructor */
-    public Group(String id, String name, String description, List<String> users){
+    public Group(){
+
+    }
+
+    public Group(String name, String description){
+        this.name = name;
+        this.description = description;
+    }
+
+    public Group(long id, String name, String description){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.users = new ArrayList<>();
-        this.users.addAll(users);    }
+    }
 
-/*  Id cannot be changed
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }*/
+    }
 
     // getters and setters here...
-    public String getId(){
+    public long getId(){
         return this.id;
     }
 
@@ -48,11 +53,4 @@ public class Group {
         this.description = description;
     }
 
-    public List<String> getUsers() {
-        return users;
-    }
-
-    public void addUser(String userKey) {
-        this.users.add(userKey);
-    }
 }
