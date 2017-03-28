@@ -11,10 +11,14 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cse5236.meet_up.classes.DatabaseHandler;
+import com.cse5236.meet_up.classes.Meetup;
+import com.cse5236.meet_up.classes.MeetupList;
 import com.cse5236.meet_up.fragments.SettingsFragment;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
+import java.util.List;
+import com.cse5236.meet_up.classes.MeetupList;
 public class CalendarActivity extends AppCompatActivity {
 
     CalendarView calendarView;
@@ -29,6 +33,9 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView = (CalendarView) findViewById(R.id.calendarView);
         dateDisplay = (TextView) findViewById(R.id.date_display);
         dateDisplay.setText("Date: ");
+        DatabaseHandler db = new DatabaseHandler(this);
+        //waiting for working getAllMeetups() method to utilize this and the commented methods in setOnDateChangeListener
+        //List<Meetup> meets = db.getAllMeetups();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -36,6 +43,12 @@ public class CalendarActivity extends AppCompatActivity {
                 Date d;
                 String events = "";
                 d = new GregorianCalendar(i, i1, i2).getTime();
+//                for (Meetup meet : meets) {
+//                    if (meet.getDate().equals(d)) {
+//                        events += meet.getName();
+//                        events += ",";
+//                    }
+//                }
                 dateDisplay.setText("Date: " + i1 + " / " + i2 + " / " + i + "\n" + "Events:\n");
                 //TODO: Add events for the selected date to dateDisplay
                 Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();

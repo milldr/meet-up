@@ -26,6 +26,12 @@ public class Meetup {
 
     }
 
+    public Meetup(UUID mId) {
+        id = mId;
+        date = new Date();
+        attending = false;
+    }
+
     public boolean isAttending() {
         return attending;
     }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.cse5236.meet_up.MeetupActivity;
 import com.cse5236.meet_up.R;
@@ -47,6 +48,7 @@ public class MeetupsFragment extends Fragment {
     private Meetup mMeetup;
     private EditText mTitleField;
     private Button mDateButton;
+    private Button mDeleteButton;
     private Button mTimeButton;
     private Button mAttendingCheckBox;
     private Button mNotAttendingCheckBox;
@@ -79,21 +81,28 @@ public class MeetupsFragment extends Fragment {
         return fragment;
     }
 
-    /**public static MeetupsFragment newInstance(UUID meetupId) {
+    public static MeetupsFragment newInstance(UUID meetupId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_MEETUP_ID, meetupId);
         MeetupsFragment fragment = new MeetupsFragment();
         fragment.setArguments(args);
         return fragment;
-    }*/
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID meetupId = (UUID) getActivity().getIntent()
-                .getSerializableExtra(MeetupActivity.EXTRA_CRIME_ID);
+                .getSerializableExtra(MeetupActivity.EXTRA_MEETUP_ID);
         mMeetup = MeetupList.get(getActivity()).getMeetup(meetupId);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MeetupList.get(getActivity())
+                .updateMeetup(mMeetup);
     }
 
     @Override
@@ -117,6 +126,18 @@ public class MeetupsFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
             // This one too
+            }
+        });
+
+        mDeleteButton = (Button)v.findViewById(R.id.meetup_delete);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UUID meetupId = mMeetup.getId();
+                MeetupList.get(getActivity()).deleteMeetup(meetupId);
+
+                Toast.makeText(getActivity(), R.string.toast_delete_meetup, Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
         });
 

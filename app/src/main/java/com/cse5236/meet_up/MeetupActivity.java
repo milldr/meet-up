@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.android.volley.RequestQueue;
+import com.cse5236.meet_up.classes.Meetup;
+import com.cse5236.meet_up.classes.MeetupList;
 import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MeetupListFragment;
@@ -42,11 +44,11 @@ public class MeetupActivity extends AppCompatActivity
 
     private RequestQueue requestQueue;
 
-    public static final String EXTRA_CRIME_ID =
+    public static final String EXTRA_MEETUP_ID =
             "com.cse5223.meetup.meetup_id";
-    public static Intent newIntent(Context packageContext, UUID crimeId) {
+    public static Intent newIntent(Context packageContext, UUID meetupId) {
         Intent intent = new Intent(packageContext, MeetupActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        intent.putExtra(EXTRA_MEETUP_ID, meetupId);
         return intent;
     }
 
@@ -218,11 +220,12 @@ public class MeetupActivity extends AppCompatActivity
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         } else if (id == R.id.add_meetup) {
-            Fragment fragment = new MeetupsFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
+            Meetup meetup = new Meetup();
+            MeetupList.get(this).addMeetup(meetup);
+            Intent intent = MeetupPagerActivity
+                    .newIntent(this, meetup.getId());
+            startActivity(intent);
+            return true;
             //create a new meetup
         } else if (id == R.id.add_group) {
             //create a new group

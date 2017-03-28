@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.cse5236.meet_up.LoginActivity;
 import com.cse5236.meet_up.MainActivity;
 import com.cse5236.meet_up.MeetupActivity;
+import com.cse5236.meet_up.MeetupPagerActivity;
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
@@ -104,6 +105,7 @@ public class MeetupListFragment extends Fragment {
         mAdapter = new MeetupAdapter(meetups);
         mMeetupRecyclerView.setAdapter(mAdapter);
         } else {
+            mAdapter.setMeetups(meetups);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -128,7 +130,7 @@ public class MeetupListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = MeetupActivity.newIntent(getActivity(), mMeetup.getId());
+            Intent intent = MeetupPagerActivity.newIntent(getActivity(), mMeetup.getId());
             startActivity(intent);
         }
 
@@ -159,7 +161,12 @@ public class MeetupListFragment extends Fragment {
         }
         @Override
         public int getItemCount() {
+
             return mMeetups.size();
+        }
+
+        public void setMeetups(List<Meetup> meetups) {
+            mMeetups = meetups;
         }
     }
 
