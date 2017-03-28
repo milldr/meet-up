@@ -14,6 +14,7 @@
 <string name="app_label">Meet-up</string>
 <string name="search_hint_users">Search for users</string>
 <string name="search_hint_groups">Search for groups</string>
+    <string name="delete_button">Delete</string>
 <!-- TODO: Remove or change this placeholder text -->
 <string name="hello_main_fragment">Hello MAIN fragment</string>
 <string name="hello_calendar_fragment">Hello CALENDAR fragment</string>
@@ -25,5 +26,6 @@
 <string name="hello_meetups_fragment">Hello Meetups</string>
 <string name="title_activity_search">SearchActivity</string>
 <string name="title_activity_calendar">CalendarActivity</string>
+    <string name="toast_delete_meetup">Meetup Deleted</string>
 
 </resources>

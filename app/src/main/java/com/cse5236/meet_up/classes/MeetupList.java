@@ -99,4 +99,10 @@ public class MeetupList {
         );
         return new MeetupCursorWrapper(cursor);
     }
+
+    public void deleteMeetup(UUID meetupId)
+    {
+        String uuidString = meetupId.toString();
+        mDatabase.delete(MeetupDbSchema.MeetupTable.TITLE, MeetupDbSchema.MeetupTable.Cols.UUID + " = ?", new String[] {uuidString});
+    }
 }
