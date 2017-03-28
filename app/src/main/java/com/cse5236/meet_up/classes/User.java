@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public class User {
-    private int id; // used for object storage
+    private long id; // used for object storage
     private String name;
     private String email;
     private String password;
@@ -18,7 +18,7 @@ public class User {
 
     }
 
-    public User(int id, String name, String email, String password){
+    public User(long id, String name, String email, String password){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -35,11 +35,11 @@ public class User {
 
     // getters and setters here...
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getId(){
+    public long getId(){
         return this.id;
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,14 @@ import java.util.List;
  * Created by daniel on 3/26/17.
  *
  * referenced: http://www.androidhive.info/2011/11/android-sqlite-database-tutorial/
+ * & http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
  */
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     // Database Name
     private static final String DATABASE_NAME = "databaseManager";
@@ -27,7 +29,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Table names
     private static final String TABLE_USERS = "users";
     private static final String TABLE_GROUPS = "groups";
-    private static final String TABLE_USERGROUP = "user group";
+    private static final String TABLE_USERGROUP = "user_group";
 
 
     // Table Columns names
@@ -36,8 +38,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_DESCRIPTION = "description";
-    private static final String KEY_USERKEYS = "user keys";
+    private static final String KEY_USER_ID = "user_id";
+    private static final String KEY_GROUP_ID = "group_id";
 
+    // USERS
+    private static final String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
+            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_NAME + " TEXT,"
+            + KEY_EMAIL + " TEXT,"
+            + KEY_PASSWORD + " TEXT" + ")";
+
+    // GROUPS
+    private static final String CREATE_GROUPS_TABLE = "CREATE TABLE " + TABLE_GROUPS + "("
+            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_NAME + " TEXT,"
+            + KEY_DESCRIPTION + " TEXT" + ")";
+
+    // USERS + GROUPS
+    private static final String CREATE_USERGROUP_TABLE = "CREATE TABLE " + TABLE_USERGROUP + "("
+            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_USER_ID + " INTEGER,"
+            + KEY_GROUP_ID + " INTEGER" + ")";
+
+    // MEETUPS
+    // TODO
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -46,25 +70,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // USERS
-        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_EMAIL + " TEXT," + KEY_PASSWORD + " TEXT" + ")";
         db.execSQL(CREATE_USERS_TABLE);
-
-        // GROUPS
-        String CREATE_GROUPS_TABLE = "CREATE TABLE " + TABLE_GROUPS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_DESCRIPTION + " TEXT," + KEY_USERKEYS + " TEXT" + ")";
         db.execSQL(CREATE_GROUPS_TABLE);
-
-        // GROUPS
-        String CREATE_USERGROUP_TABLE = "CREATE TABLE " + TABLE_GROUPS + "("
-                + KEY_ID + " INTEGER FOREIGN KEY," + KEY_ID + " TEXT" + ")";
         db.execSQL(CREATE_USERGROUP_TABLE);
-
-        // MEETUPS
-        // TODO
     }
 
     // Upgrading database
@@ -73,6 +81,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERGROUP);
 
         // Create tables again
         onCreate(db);
@@ -105,7 +114,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         User user = new User(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
-        // return contact
+
+        cursor.close();
+        // return user
         return user;
     }
 
@@ -143,8 +154,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return contact list
+        cursor.close();
+
+        // return user list
         return userList;
+    }
+
+    public List<User> getAllUsers(Group group) {
+        List<User> users = new ArrayList<User>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_USERS + " WHERE "
+                + KEY_ID + " IN (SELECT "
+                + KEY_USER_ID + " FROM "
+                + TABLE_USERGROUP + " WHERE "
+                + KEY_GROUP_ID + " = " + group.getId()
+                + ")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                User usr = new User();
+                usr.setId(Integer.parseInt(c.getString(0)));
+                usr.setName(c.getString(1));
+                usr.setEmail(c.getString(2));
+                usr.setPassword(c.getString(3));
+                users.add(usr);
+            } while (c.moveToNext());
+        }
+
+        return users;
     }
 
     // Getting users Count
@@ -184,7 +225,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     /* ------------------------ GROUPS CRUD methods  ------------------------ */
 
     // Adding new group
-    public void addGroup(Group group) {
+    public long addGroup(Group group) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -192,27 +233,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_DESCRIPTION, group.getDescription());
 
         // Inserting Row
-        db.insert(TABLE_GROUPS, null, values);
+        long id = db.insert(TABLE_GROUPS, null, values);
         db.close(); // Closing database connection
+
+        // TODO - temporary fix
+        group.setId(id);
+        updateGroup(group);
+
+        return id;
     }
 
     // Getting single group
-    public Group getGroup(int id) {
+    public Group getGroup(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_GROUPS, new String[] { KEY_ID,
-                        KEY_NAME, KEY_DESCRIPTION}, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
+        String selectQuery = "SELECT  * FROM " + TABLE_GROUPS + " WHERE "
+                + KEY_ID + " = " + id;
 
-        Group group = new Group(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
-        // return contact
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        Group group = new Group();
+        if (cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            group = new Group( cursor.getInt(cursor.getColumnIndex(KEY_ID)),
+                    cursor.getString(cursor.getColumnIndex(KEY_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)) );
+        }
+
+        cursor.close();
+
+        // return group
         return group;
     }
 
     // Getting All groups
-    public List<Group> getAllGroup() {
+    public List<Group> getAllGroups() {
         List<Group> groupList = new ArrayList<Group>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_GROUPS;
@@ -232,7 +287,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return contact list
+        cursor.close();
+
+        // return group list
         return groupList;
     }
 
@@ -261,11 +318,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(group.getId()) });
     }
 
-    // Deleting single user
+    // Deleting single group
     public void deleteGroup(Group group) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_GROUPS, KEY_ID + " = ?",
                 new String[] { String.valueOf(group.getId()) });
         db.close();
     }
+
+    public void addUserToGroup(User user, Group group){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_ID, user.getId());
+        values.put(KEY_GROUP_ID, group.getId());
+
+        db.insert(TABLE_USERGROUP, null, values);
+        db.close(); // Closing database connection
+    }
+
 }

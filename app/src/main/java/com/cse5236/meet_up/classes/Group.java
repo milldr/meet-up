@@ -8,10 +8,9 @@ import java.util.List;
  */
 
 public class Group {
-    private int id; // used for object storage
+    private long id; // used for object storage
     private String name;
     private String description;
-    private List<Integer> userKeys;
 
     /** Constructor */
     public Group(){
@@ -21,22 +20,20 @@ public class Group {
     public Group(String name, String description){
         this.name = name;
         this.description = description;
-        this.userKeys = new ArrayList<>();
     }
 
-    public Group(int id, String name, String description){
+    public Group(long id, String name, String description){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.userKeys = new ArrayList<>();
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
     // getters and setters here...
-    public int getId(){
+    public long getId(){
         return this.id;
     }
 
@@ -54,18 +51,6 @@ public class Group {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void addUser(int userId){
-        this.userKeys.add(userId);
-    }
-
-    public void removeUser(int userId){
-        this.userKeys.remove(userId);
-    }
-
-    public List<Integer> getUserKeys(){
-        return this.userKeys;
     }
 
 }

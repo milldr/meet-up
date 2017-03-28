@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.DatabaseHandler;
+import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.User;
 
 import java.util.List;
@@ -130,12 +131,30 @@ public class GroupsFragment extends Fragment {
         Log.d("Reading: ", "Reading all users..");
         DatabaseHandler db = new DatabaseHandler(this.getActivity());
         List<User> users = db.getAllUsers();
+        Group test = new Group("group name", "group description blah blah blah");
+        db.addGroup(test);
 
+        Log.d("note - ", "all users");
         for (User u : users) {
             String log = "Id: " + u.getId() + " ,Name: " + u.getName() + " ,Email: " + u.getEmail() + " ,Password: " + u.getPassword();
             // Writing Contacts to log
             Log.d("Name: ", log);
+            db.addUserToGroup(u, test);
         }
 
+        Log.d("Group: ", "adding group");
+        db.updateGroup(test);
+        Group group = db.getGroup(test.getId());
+        String log = "Id: " + group.getId() + " ,Name: " + group.getName() + " ,Desc: " + group.getDescription();
+        Log.d("Group: ", log);
+
+        Log.d("note - ", "group users");
+        List<User> users2 = db.getAllUsers(group);
+
+        for (User u : users2) {
+            log = "Id: " + u.getId() + " ,Name: " + u.getName() + " ,Email: " + u.getEmail() + " ,Password: " + u.getPassword();
+            // Writing Contacts to log
+            Log.d("Name: ", log);
+        }
     }
 }

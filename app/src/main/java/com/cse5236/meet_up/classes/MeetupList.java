@@ -22,13 +22,13 @@ public class MeetupList {
         return sMeetupList;
     }
     private MeetupList(Context context) {
-        for (int i = 0; i < 100; i++) {
-            Meetup crime = new Meetup();
-            crime.setName("Meetup #" + i);
-            crime.setAttending(i % 2 == 0); // Every other one
-            mMeetups.add(crime);
-        }
         mMeetups = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            Meetup meetup = new Meetup();
+            meetup.setName("meetup #" + i);
+            meetup.setAttending(i % 2 == 0); // Every other one
+            mMeetups.add(meetup);
+        }
     }
 
     public List<Meetup> getMeetups() {

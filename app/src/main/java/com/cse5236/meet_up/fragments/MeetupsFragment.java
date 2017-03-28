@@ -16,12 +16,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.cse5236.meet_up.MeetupActivity;
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.DatePickerFragment;
+import com.cse5236.meet_up.classes.MeetupList;
 import com.cse5236.meet_up.classes.TimePickerFragment;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +39,7 @@ public class MeetupsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_MEETUP_ID = "meetup_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
     private static final int REQUEST_TIME = 1;
@@ -75,10 +79,20 @@ public class MeetupsFragment extends Fragment {
         return fragment;
     }
 
+    /**public static MeetupsFragment newInstance(UUID meetupId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_MEETUP_ID, meetupId);
+        MeetupsFragment fragment = new MeetupsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }*/
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            mMeetup = new Meetup();
+        UUID meetupId = (UUID) getActivity().getIntent()
+                .getSerializableExtra(MeetupActivity.EXTRA_CRIME_ID);
+        mMeetup = MeetupList.get(getActivity()).getMeetup(meetupId);
 
     }
 
@@ -88,6 +102,7 @@ public class MeetupsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_meetups, container, false);
 
         mTitleField = (EditText)v.findViewById(R.id.meetup_title);
+        mTitleField.setText(mMeetup.getName());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(
@@ -131,6 +146,7 @@ public class MeetupsFragment extends Fragment {
         });
 
         mAttendingCheckBox = (Button)v.findViewById(R.id.meetup_attending);
+        mMeetup.setAttending(mMeetup.isAttending());
         mAttendingCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,5 +1,6 @@
 package com.cse5236.meet_up;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -25,11 +26,13 @@ import com.cse5236.meet_up.fragments.MeetupListFragment;
 import com.cse5236.meet_up.fragments.MeetupsFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
 
-public class MainActivity extends AppCompatActivity
+import java.util.UUID;
+
+public class MeetupActivity extends AppCompatActivity
         implements CalendarFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
         GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MeetupActivity";
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -39,16 +42,20 @@ public class MainActivity extends AppCompatActivity
 
     private RequestQueue requestQueue;
 
+    public static final String EXTRA_CRIME_ID =
+            "com.cse5223.meetup.meetup_id";
+    public static Intent newIntent(Context packageContext, UUID crimeId) {
+        Intent intent = new Intent(packageContext, MeetupActivity.class);
+        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        return intent;
+    }
+
     /* onCreate() - create views, (re) initialize state */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
-
-        // login activity first
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
 
         // initialize the list for navigation
         mDrawerList = (ListView)findViewById(R.id.navList);
@@ -65,7 +72,7 @@ public class MainActivity extends AppCompatActivity
 
         //initialize opening fragment
         selectItem(0);
-        Fragment fragment = new MeetupListFragment();
+        Fragment fragment = new MeetupsFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
