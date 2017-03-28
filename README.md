@@ -19,9 +19,6 @@ Screenshots are from emulator.
 3. Build the app
 4. Run on your chosen emulator (or physical device).
 
-![Installing](/screenshots/app1.png)
-![Installing](/screenshots/app2.png)
-
 ### Use Cases
 Accounts:
 	Account creation- User can create an account.
@@ -39,8 +36,15 @@ Meetups:
 
 ### Screenshots
 
-
-![Profiling](/screenshots/profiling.png)
+![Create](/screenshots/createaccount.png)
+![Login](/screenshots/login.png)
+![Main](/screenshots/main.png)
+![Navigation](/screenshots/nav.png)
+![Overflow](/screenshots/overflow.png)
+![Calendar](/screenshots/cal1.png)
+![Calendar 2](/screenshots/cal2.png)
+![Meetup](/screenshots/meetup.png)
+![Logout](/screenshots/logout.png)
 
 
 ------
