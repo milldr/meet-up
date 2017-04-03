@@ -1,6 +1,7 @@
 package com.cse5236.meet_up;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -121,13 +122,19 @@ public class MainActivity extends AppCompatActivity
 
     private void selectItem(int position) {
         // specify the new fragment
+        boolean isCal = false;
         Fragment fragment;
         switch (position){
             case(0):
                 fragment = new MeetupListFragment();
                 break;
             case(1):
+                //unnecessary but compiler was complaining
                 fragment = new CalendarFragment();
+                isCal = true;
+                //start calendar intent
+                Intent intent = new Intent(this, CalendarActivity.class);
+                startActivity(intent);
                 break;
             case(2):
                 fragment = new GroupsFragment();
@@ -140,17 +147,18 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
+        if (!isCal) {
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
-
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        //setTitle(mFragmentTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+            // Highlight the selected item, update the title, and close the drawer
+            mDrawerList.setItemChecked(position, true);
+            //setTitle(mFragmentTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
     }
 
     public void setTitle(String title) {
