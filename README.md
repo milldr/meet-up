@@ -21,17 +21,18 @@ Screenshots are from emulator.
 
 ### Use Cases
 #### Accounts:
-+ Account creation- User can create an account.
-+ Deletion from group- User can be removed from group.
++ Account creation - User can create an account.
++ Account login - User can log into an account.
++ Account logout - User can log out of an account.
  
 #### Groups:
-+ Group creation- User can create a group.
-+ Add member- User can add a member to a group at creation
++ Group creation - User can create a group.
++ Add member - User can add a member to a group at creation
 
 #### Meetups:
-+ Meetup creation- User can create a meetup.
-+ Meetup joining- User can join a meetup.
-+ Meetup leaving- User can leave a meetup.
++ Meetup creation - User can create a meetup.
++ Meetup joining - User can join a meetup.
++ Meetup leaving - User can leave a meetup.
 
 
 
