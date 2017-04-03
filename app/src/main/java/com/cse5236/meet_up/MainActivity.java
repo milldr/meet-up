@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import com.android.volley.RequestQueue;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
+import com.cse5236.meet_up.classes.User;
 import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MeetupListFragment;

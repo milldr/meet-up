@@ -1,7 +1,6 @@
 package com.cse5236.meet_up;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,7 +14,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.cse5236.meet_up.classes.DatabaseHandler;
-import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.User;
 
 public class SignupActivity extends AppCompatActivity {
@@ -76,8 +74,11 @@ public class SignupActivity extends AppCompatActivity {
         // create the user
         Log.d("Insert: ", "Inserting new user");
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-        db.addUser(new User(name, email, password));
+        User user = new User(name, email, password);
+        db.addUser(user);
         db.close();
+        ((MeetUp) this.getApplication()).setCurrentUser(user);
+
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         // TODO how to specify current user
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
         User user = db.getUser(email, password);
+        ((MeetUp) this.getApplication()).setCurrentUser(user);
         db.close();
 
         new android.os.Handler().postDelayed(

@@ -1,6 +1,5 @@
 package com.cse5236.meet_up.fragments;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,9 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.cse5236.meet_up.MeetUp;
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.DatabaseHandler;
 import com.cse5236.meet_up.classes.Group;
@@ -86,7 +86,7 @@ public class GroupsFragment extends Fragment {
 
         // Reading all users
         DatabaseHandler db = new DatabaseHandler(this.getActivity());
-        User u = db.getUser(1);
+        User u = ((MeetUp) getActivity().getApplication()).getCurrentUser();
         String log = "Id: " + u.getId() + " ,Name: " + u.getName() + " ,Email: " + u.getEmail() + " ,Password: " + u.getPassword();
         Log.d(TAG, log);
 

@@ -4,29 +4,23 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.cse5236.meet_up.MainActivity;
+import com.cse5236.meet_up.MeetUp;
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.DatabaseHandler;
 import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.User;
 import com.cse5236.meet_up.userListAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -129,7 +123,8 @@ public class NewGroupFragment extends Fragment {
                 String description = mDescription.getText().toString();
                 Group group = new Group(name, description);
                 db.addGroup(group);
-                // db.addUserToGroup(current user, group);
+                User currentUser = ((MeetUp) getActivity().getApplication()).getCurrentUser();
+                db.addUserToGroup(currentUser, group);
                 for (User friend : friendList){
                     db.addUserToGroup(friend, group);
                 }
