@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.cse5236.meet_up.classes.DatabaseHandler;
+import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.User;
 
 public class SignupActivity extends AppCompatActivity {

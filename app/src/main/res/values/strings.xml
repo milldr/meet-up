@@ -1,31 +1,34 @@
 <resources>
-<string name="app_name">meet-up</string>
-<string name="drawer_open">Open navigation drawer</string>
-<string name="drawer_close">Close navigation drawer</string>
+    <string name="app_name">meet-up</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
-<string name="meetup_title_hint">Enter a name for the meetup.</string>
-<string name="meetup_title_label">Name</string>
-<string name="meetup_search_userlabel">Search to Add Users</string>
-<string name="meetup_search_grouplabel">Search to Add Groups</string>
-<string name="meetup_details_label">Details</string>
-<string name="attending_button">Attending</string>
-<string name="nattending_button">Not Attending</string>
-<string name="date_picker_title">Date of meetup:</string>
-<string name="app_label">Meet-up</string>
-<string name="search_hint_users">Search for users</string>
-<string name="search_hint_groups">Search for groups</string>
+    <string name="meetup_title_hint">Enter a name for the meetup.</string>
+    <string name="meetup_title_label">Name</string>
+    <string name="meetup_search_userlabel">Search to Add Users</string>
+    <string name="meetup_search_grouplabel">Search to Add Groups</string>
+    <string name="meetup_details_label">Details</string>
+    <string name="attending_button">Attending</string>
+    <string name="nattending_button">Not Attending</string>
+    <string name="date_picker_title">Date of meetup:</string>
+    <string name="app_label">Meet-up</string>
+    <string name="search_hint_users">Search for users</string>
+    <string name="search_hint_groups">Search for groups</string>
     <string name="delete_button">Delete</string>
-<!-- TODO: Remove or change this placeholder text -->
-<string name="hello_main_fragment">Hello MAIN fragment</string>
-<string name="hello_calendar_fragment">Hello CALENDAR fragment</string>
-<string name="hello_group_fragment">Hello GROUP fragment</string>
-<string name="hello_settings_fragment">Hello SETTINGS fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_main_fragment">Hello MAIN fragment</string>
+    <string name="hello_calendar_fragment">Hello CALENDAR fragment</string>
+    <string name="hello_group_fragment">Hello GROUP fragment</string>
+    <string name="hello_settings_fragment">Hello SETTINGS fragment</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-<string name="hello_blank_fragment">Hello blank fragment</string>
-<string name="hello_meetups_fragment">Hello Meetups</string>
-<string name="title_activity_search">SearchActivity</string>
-<string name="title_activity_calendar">CalendarActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_meetups_fragment">Hello Meetups</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
     <string name="toast_delete_meetup">Meetup Deleted</string>
+    <string name="default_name">name</string>
+    <string name="default_description">group description here</string>
+    <string name="default_email">default@email.com</string>
 
 </resources>

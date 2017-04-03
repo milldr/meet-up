@@ -154,7 +154,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        cursor.close();
+        if(cursor != null && !cursor.isClosed()){
+            cursor.close();
+        }
 
         // return user list
         return userList;
@@ -193,8 +195,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String countQuery = "SELECT  * FROM " + TABLE_USERS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
-
+        if(cursor != null && !cursor.isClosed()){
+            cursor.close();
+        }
         // return count
         return cursor.getCount();
     }
@@ -282,7 +285,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 group.setId(Integer.parseInt(cursor.getString(0)));
                 group.setName(cursor.getString(1));
                 group.setDescription(cursor.getString(2));
-                // Adding contact to list
                 groupList.add(group);
             } while (cursor.moveToNext());
         }
@@ -290,6 +292,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
 
         // return group list
+        return groupList;
+    }
+
+    // Getting All groups for a given user
+    public List<Group> getAllGroups(User user) {
+        List<Group> groupList = new ArrayList<Group>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_GROUPS + " WHERE "
+                + KEY_ID + " IN (SELECT "
+                + KEY_GROUP_ID + " FROM "
+                + TABLE_USERGROUP + " WHERE "
+                + KEY_USER_ID + " = " + user.getId()
+                + ")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Group group = new Group();
+                group.setId(Integer.parseInt(c.getString(0)));
+                group.setName(c.getString(1));
+                group.setDescription(c.getString(2));
+                groupList.add(group);
+            } while (c.moveToNext());
+        }
+
         return groupList;
     }
 

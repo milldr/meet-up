@@ -1,6 +1,5 @@
 package com.cse5236.meet_up.fragments;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,13 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.DatabaseHandler;
-import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.User;
+import com.cse5236.meet_up.userListAdapter;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -23,12 +25,12 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link GroupsFragment.OnFragmentInteractionListener} interface
+ * {@link NewGroupFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link GroupsFragment#newInstance} factory method to
+ * Use the {@link NewGroupFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GroupsFragment extends Fragment {
+public class NewGroupFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,7 +42,7 @@ public class GroupsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public GroupsFragment() {
+    public NewGroupFragment() {
         // Required empty public constructor
     }
 
@@ -50,11 +52,11 @@ public class GroupsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment GroupsFragment.
+     * @return A new instance of fragment NewGroupFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GroupsFragment newInstance(String param1, String param2) {
-        GroupsFragment fragment = new GroupsFragment();
+    public static NewGroupFragment newInstance(String param1, String param2) {
+        NewGroupFragment fragment = new NewGroupFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,8 +66,6 @@ public class GroupsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "GroupFragment created");
-
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -76,44 +76,20 @@ public class GroupsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        Log.d(TAG, "onCreateView of GroupsFragment...");
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_groups, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_new_group, container, false);
         Context context = getActivity().getApplicationContext();
-        LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // Reading all users
         DatabaseHandler db = new DatabaseHandler(this.getActivity());
-        User u = db.getUser(1);
-        String log = "Id: " + u.getId() + " ,Name: " + u.getName() + " ,Email: " + u.getEmail() + " ,Password: " + u.getPassword();
-        Log.d(TAG, log);
+        List<User> userList = db.getAllUsers();
 
-        // dynamically fill groups
-        List<Group> userGroups = db.getAllGroups(u);
-        for (Group g : userGroups){
-            Log.d(TAG, "Adding group layout");
-
-            // choose the group layout, defined in group.xml
-            View v = vi.inflate(R.layout.group, null);
-
-            // set name
-            String name = g.getName();
-            TextView nameView = (TextView) v.findViewById(R.id.name);
-            nameView.setText(name);
-
-            // set description
-            String description = g.getDescription();
-            TextView descView = (TextView) v.findViewById(R.id.description);
-            descView.setText(description);
-
-            // insert into the group fragment
-            LinearLayout groups = (LinearLayout) view.findViewById(R.id.groups);
-            groups.addView(v);
+        for (User user : userList){
+            Log.d(TAG, user.getEmail());
         }
 
-        return view;
+        ListView lv = (ListView) rootView.findViewById(R.id.user_list);
+        lv.setAdapter(new userListAdapter(context, userList));
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -154,12 +130,4 @@ public class GroupsFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
-    }
-
 }
