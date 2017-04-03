@@ -39,7 +39,7 @@ public class userListAdapter extends BaseAdapter {
         }
 
         @Override
-        public Object getItem(int position) {
+        public User getItem(int position) {
             // TODO Auto-generated method stub
             return data.get(position);
         }

@@ -8,11 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.cse5236.meet_up.MainActivity;
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.DatabaseHandler;
+import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.User;
 import com.cse5236.meet_up.userListAdapter;
 
@@ -41,6 +47,15 @@ public class NewGroupFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ListView lv;
+    private List<User> friendList;
+    private userListAdapter ula;
+    private DatabaseHandler db;
+    private EditText mName;
+    private EditText mDescription;
+
+
 
     public NewGroupFragment() {
         // Required empty public constructor
@@ -71,6 +86,9 @@ public class NewGroupFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        db = new DatabaseHandler(this.getActivity());
+        friendList = new ArrayList<>();
     }
 
     @Override
@@ -79,15 +97,45 @@ public class NewGroupFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_new_group, container, false);
         Context context = getActivity().getApplicationContext();
 
-        DatabaseHandler db = new DatabaseHandler(this.getActivity());
         List<User> userList = db.getAllUsers();
 
-        for (User user : userList){
-            Log.d(TAG, user.getEmail());
-        }
+        lv = (ListView) rootView.findViewById(R.id.user_list);
+        ula = new userListAdapter(context, userList);
+        lv.setAdapter(ula);
 
-        ListView lv = (ListView) rootView.findViewById(R.id.user_list);
-        lv.setAdapter(new userListAdapter(context, userList));
+
+        // ListView on item selected listener.
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                User friend = ula.getItem(position);
+                if (!friendList.contains(friend)){
+                    friendList.add(friend);
+                }
+            }
+        });
+
+        Button save = (Button) rootView.findViewById(R.id.save_group);
+        mName   = (EditText) rootView.findViewById(R.id.group_name);
+        mDescription   = (EditText) rootView.findViewById(R.id.group_description);
+        save.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String name = mName.getText().toString();
+                String description = mDescription.getText().toString();
+                Group group = new Group(name, description);
+                db.addGroup(group);
+                // db.addUserToGroup(current user, group);
+                for (User friend : friendList){
+                    db.addUserToGroup(friend, group);
+                }
+
+            }
+        });
 
         return rootView;
     }
