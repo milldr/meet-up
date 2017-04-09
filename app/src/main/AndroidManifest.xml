@@ -12,16 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            android:configChanges="orientation|screenSize"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".MeetupActivity"></activity>
-        <activity android:name=".CalendarActivity" />
+        <activity android:name=".LoginActivity">
+        android:configChanges="orientation|screenSize"
+        </activity>
+        <activity android:name=".SignupActivity">
+        android:configChanges="orientation|screenSize"
+        </activity>
+        <activity android:name=".MeetupActivity">
+            android:configChanges="orientation|screenSize"
+        </activity>
+        <activity android:name=".CalendarActivity">
+        android:configChanges="orientation|screenSize"
+        </activity>
     </application>
 
 </manifest>

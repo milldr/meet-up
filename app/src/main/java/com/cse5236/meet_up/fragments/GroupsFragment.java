@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.cse5236.meet_up.MeetUp;
 import com.cse5236.meet_up.R;
-import com.cse5236.meet_up.classes.DatabaseHandler;
+import com.cse5236.meet_up.classes.database.DatabaseHandler;
 import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.User;
 import java.util.List;

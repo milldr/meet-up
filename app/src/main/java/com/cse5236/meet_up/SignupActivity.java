@@ -13,7 +13,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import com.cse5236.meet_up.classes.DatabaseHandler;
+import com.cse5236.meet_up.classes.database.DatabaseHandler;
 import com.cse5236.meet_up.classes.User;
 
 public class SignupActivity extends AppCompatActivity {

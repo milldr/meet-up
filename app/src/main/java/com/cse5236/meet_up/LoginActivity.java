@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cse5236.meet_up.classes.DatabaseHandler;
+import com.cse5236.meet_up.classes.database.DatabaseHandler;
 import com.cse5236.meet_up.classes.User;
 
 import butterknife.ButterKnife;

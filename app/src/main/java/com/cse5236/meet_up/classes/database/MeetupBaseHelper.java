@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class MeetupBaseHelper extends SQLiteOpenHelper {
-    private static final int VERSION = 1;
-    private static final String DATABASE_NAME = "meetupBase.db";
+    private static final int VERSION = 3;
+    private static final String DATABASE_NAME = "databaseManager.db";
     public MeetupBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
@@ -27,5 +27,6 @@ public class MeetupBaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + MeetupDbSchema.MeetupTable.TITLE);
     }
 }

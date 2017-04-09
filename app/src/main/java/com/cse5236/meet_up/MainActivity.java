@@ -52,12 +52,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // login activity first
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        if (savedInstanceState == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         // initialize the list for navigation
-        mDrawerList = (ListView)findViewById(R.id.navList);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.navList);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         // fill the list of items in the navigation
@@ -68,13 +70,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //initialize opening fragment
-        selectItem(0);
-        Fragment fragment = new MeetupListFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+
     }
 
     @Override

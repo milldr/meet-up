@@ -1,4 +1,4 @@
-package com.cse5236.meet_up.classes;
+package com.cse5236.meet_up.classes.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.cse5236.meet_up.classes.Group;
+import com.cse5236.meet_up.classes.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 3;
 
     // Database Name
-    private static final String DATABASE_NAME = "databaseManager";
+    private static final String DATABASE_NAME = "databaseManager.db";
 
     // Table names
     private static final String TABLE_USERS = "users";

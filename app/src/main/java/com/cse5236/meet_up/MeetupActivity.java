@@ -61,8 +61,8 @@ public class MeetupActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // initialize the list for navigation
-        mDrawerList = (ListView)findViewById(R.id.navList);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.navList);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         // fill the list of items in the navigation
@@ -74,12 +74,14 @@ public class MeetupActivity extends AppCompatActivity
         getSupportActionBar().setHomeButtonEnabled(true);
 
         //initialize opening fragment
-        selectItem(0);
-        Fragment fragment = new MeetupsFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+        if (savedInstanceState == null) {
+            selectItem(0);
+            Fragment fragment = new MeetupsFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        }
     }
 
     @Override

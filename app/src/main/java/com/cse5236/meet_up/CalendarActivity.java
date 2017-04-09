@@ -11,14 +11,13 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cse5236.meet_up.classes.DatabaseHandler;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
 import com.cse5236.meet_up.fragments.SettingsFragment;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import com.cse5236.meet_up.classes.MeetupList;
+
 public class CalendarActivity extends AppCompatActivity {
 
     CalendarView calendarView;
