@@ -26,12 +26,13 @@ import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MeetupListFragment;
 import com.cse5236.meet_up.fragments.MeetupsFragment;
+import com.cse5236.meet_up.fragments.NewGroupFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
 
 import java.util.UUID;
 
 public class MeetupActivity extends AppCompatActivity
-        implements CalendarFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
+        implements NewGroupFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
         GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MeetupActivity";
@@ -229,6 +230,12 @@ public class MeetupActivity extends AppCompatActivity
             //create a new meetup
         } else if (id == R.id.add_group) {
             //create a new group
+            Fragment fragment = new NewGroupFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+
         } else if (id == R.id.settings) {
             //go to settings
             Fragment fragment = new SettingsFragment();
