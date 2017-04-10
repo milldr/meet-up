@@ -37,8 +37,7 @@
 + Meetup joining - User can join a meetup.
 + Meetup leaving - User can leave a meetup.
 
-### Profiler Performance Upgrade
-## Memory Use Improvement
+## Profiler Performance Upgrade - Memory Use Improvement
 
 Previously, the user to meetup association was accomplished by a list of user keys stored in each meetup. Now that has been replaced by a relational table. You can see in the screenshots that this has decreased the memory used (for 3 meetups) from around 8 MB to around 3 MB - a significant improvement!
 ### Before
