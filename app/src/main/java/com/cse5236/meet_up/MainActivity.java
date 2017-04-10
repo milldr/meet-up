@@ -38,8 +38,10 @@ public class MainActivity extends AppCompatActivity
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private String mActivityTitle;
+    public String mActivityTitle;
     private String[] mFragmentTitles = { "Home", "Calendar", "Groups", "Settings"};
+    //string for junit testing
+    public String opened;
 
     private RequestQueue requestQueue;
 
@@ -125,30 +127,35 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void selectItem(int position) {
+    public void selectItem(int position) {
         // specify the new fragment
         boolean isCal = false;
         Fragment fragment;
         switch (position){
             case(0):
                 fragment = new MeetupListFragment();
+                opened = "MeetupList";
                 break;
             case(1):
                 //unnecessary but compiler was complaining
                 fragment = new Fragment();
                 isCal = true;
+                opened = "Calendar";
                 //start calendar intent
                 Intent intent = new Intent(this, CalendarActivity.class);
                 startActivity(intent);
                 break;
             case(2):
                 fragment = new GroupsFragment();
+                opened = "Groups";
                 break;
             case(3):
                 fragment = new SettingsFragment();
+                opened = "Settings";
                 break;
             default:
                 fragment = new MeetupListFragment();
+                opened = "MeetupList";
                 break;
         }
 

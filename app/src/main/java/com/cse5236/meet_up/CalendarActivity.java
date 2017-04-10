@@ -36,7 +36,7 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView = (CalendarView) findViewById(R.id.calendarView);
         dateDisplay = (TextView) findViewById(R.id.date_display);
         dateDisplay.setText("Date: ");
-        //waiting for working getAllMeetups() method to utilize this and the commented methods in setOnDateChangeListener
+        //get meetup list
         MeetupList meetupList = MeetupList.get(this);
         final List<Meetup> meets = meetupList.getMeetups();
 
@@ -45,12 +45,18 @@ public class CalendarActivity extends AppCompatActivity {
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
                 Date d;
                 String events = "";
+                //create a date using i, i1, i2 (year, month, date)
                 d = new GregorianCalendar(i, i1, i2).getTime();
                 for (Meetup meet : meets) {
+                    //check to see if the meetup's date is the same as the one selected.
                     if ((meet.getDate().getDate() == d.getDate()) && (meet.getDate().getMonth() == d.getMonth()) && (meet.getDate().getYear() == d.getYear())) {
                         events += meet.getName();
                         events += ",";
                     }
+                }
+                //avoid error for days with no events
+                if (events.length() > 0) {
+                    events = events.substring(0, events.length() - 1);
                 }
                 dateDisplay.setText("Date: " + (i1 + 1) + " / " + i2 + " / " + i + "\n" + "Events:\n" + events + "\n");
             }
