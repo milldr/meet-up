@@ -101,6 +101,10 @@ public class CalendarFragment extends Fragment {
                         events += ",";
                     }
                 }
+                if (events.length() != 0) {
+                    //if there are meetups, remove the extra comma from the end.
+                    events = events.substring(0, events.length() - 1);
+                }
                 dateDisplay.setText("Date: " + (i1 + 1) + " / " + i2 + " / " + i + "\n" + "Events:\n" + events + "\n");
             }
         });
