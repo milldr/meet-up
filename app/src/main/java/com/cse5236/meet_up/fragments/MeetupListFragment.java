@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,18 @@ import android.widget.TextView;
 
 import com.cse5236.meet_up.LoginActivity;
 import com.cse5236.meet_up.MainActivity;
+import com.cse5236.meet_up.MeetUp;
 import com.cse5236.meet_up.MeetupActivity;
 import com.cse5236.meet_up.MeetupPagerActivity;
 import com.cse5236.meet_up.R;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
+import com.cse5236.meet_up.classes.User;
+import com.cse5236.meet_up.classes.database.DatabaseHandler;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,8 +104,11 @@ public class MeetupListFragment extends Fragment {
     }
 
     private void updateUI() {
+        DatabaseHandler db = new DatabaseHandler(this.getActivity());
+        User u = ((MeetUp) getActivity().getApplication()).getCurrentUser();
+
         MeetupList meetupList = MeetupList.get(getActivity());
-        List<Meetup> meetups = meetupList.getMeetups();
+        List<Meetup> meetups = db.getAllMeetups(u);
 
         if (mAdapter == null) {
         mAdapter = new MeetupAdapter(meetups);

@@ -21,16 +21,18 @@ import android.view.MenuInflater;
 import com.android.volley.RequestQueue;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
+import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MeetupListFragment;
 import com.cse5236.meet_up.fragments.MeetupsFragment;
 import com.cse5236.meet_up.fragments.NewGroupFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
+import com.cse5236.meet_up.fragments.WelcomeFragment;
 
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity
-        implements NewGroupFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
+        implements CalendarFragment.OnFragmentInteractionListener, NewGroupFragment.OnFragmentInteractionListener, WelcomeFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
         GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
@@ -72,15 +74,13 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //initialize opening fragment
-        if (savedInstanceState == null) {
-            selectItem(0);
-            Fragment fragment = new MeetupListFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-        }
+        Fragment fragment = new WelcomeFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+
     }
 
     @Override
@@ -138,12 +138,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             case(1):
                 //unnecessary but compiler was complaining
-                fragment = new Fragment();
-                isCal = true;
+                fragment = new CalendarFragment();
                 opened = "Calendar";
-                //start calendar intent
-                Intent intent = new Intent(this, CalendarActivity.class);
-                startActivity(intent);
                 break;
             case(2):
                 fragment = new GroupsFragment();
@@ -158,8 +154,6 @@ public class MainActivity extends AppCompatActivity
                 opened = "MeetupList";
                 break;
         }
-
-        if (!isCal) {
             // Insert the fragment by replacing any existing fragment
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
@@ -170,7 +164,6 @@ public class MainActivity extends AppCompatActivity
             mDrawerList.setItemChecked(position, true);
             //setTitle(mFragmentTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
-        }
     }
 
     public void setTitle(String title) {

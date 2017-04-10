@@ -13,9 +13,7 @@ import java.util.UUID;
 public class Meetup {
     private UUID id; // used for object storage
     private String name;
-    private String description;
     private Date date;
-    private List<String> users;
     private boolean attending;
 
     /** Constructor */
@@ -59,14 +57,6 @@ public class Meetup {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -75,11 +65,5 @@ public class Meetup {
         this.date = date;
     }
 
-    public List<String> getUsers() {
-        return users;
-    }
-
-    public void addUser(String userKey) {
-        this.users.add(userKey);
-    }
+    public void setId(UUID id) { this.id = id; }
 }
