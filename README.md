@@ -40,7 +40,7 @@
 ### Profiler Performance Upgrade
 ## Memory Use Improvement
 
-Previously, the user to meetup association was accomplished by a list of user keys in stored in each meetup. Now that has been replaced by a relational table. You can see in the screenshots that this has decreased the memory used (for 3 meetups) from around 8 MB to around 3 MB - a significant improvement!
+Previously, the user to meetup association was accomplished by a list of user keys stored in each meetup. Now that has been replaced by a relational table. You can see in the screenshots that this has decreased the memory used (for 3 meetups) from around 8 MB to around 3 MB - a significant improvement!
 ### Before
 ![Before](/screenshots/before.png)
 ### After
