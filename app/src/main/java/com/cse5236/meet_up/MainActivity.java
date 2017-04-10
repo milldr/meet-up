@@ -1,7 +1,6 @@
 package com.cse5236.meet_up;
 
 import android.content.Intent;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,16 +21,16 @@ import android.view.MenuInflater;
 import com.android.volley.RequestQueue;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
-import com.cse5236.meet_up.classes.User;
-import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MeetupListFragment;
 import com.cse5236.meet_up.fragments.MeetupsFragment;
 import com.cse5236.meet_up.fragments.NewGroupFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
 
+import static android.content.ContentValues.TAG;
+
 public class MainActivity extends AppCompatActivity
-        implements NewGroupFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
+        implements NewGroupFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
         GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
+
         setContentView(R.layout.activity_main);
 
         // login activity first
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case(1):
                 //unnecessary but compiler was complaining
-                fragment = new CalendarFragment();
+                fragment = new Fragment();
                 isCal = true;
                 //start calendar intent
                 Intent intent = new Intent(this, CalendarActivity.class);

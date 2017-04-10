@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by daniel on 3/26/17.
  *
@@ -27,7 +29,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 10;
 
     // Database Name
     private static final String DATABASE_NAME = "databaseManager.db";
@@ -36,11 +38,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_USERS = "users";
     private static final String TABLE_GROUPS = "groups";
     private static final String TABLE_USERGROUP = "user_group";
+    private static final String TABLE_MEETUPS = "meetups";
     private static final String TABLE_USERGROUPMEETUP = "user_group_meetup";
 
 
     // Table Columns names
-    private static final String KEY_ID = "id";
+    private static final String KEY_ID = "_id";
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
@@ -51,26 +54,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // USERS
     private static final String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
-            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_NAME + " TEXT,"
             + KEY_EMAIL + " TEXT,"
             + KEY_PASSWORD + " TEXT" + ")";
 
     // GROUPS
     private static final String CREATE_GROUPS_TABLE = "CREATE TABLE " + TABLE_GROUPS + "("
-            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_NAME + " TEXT,"
             + KEY_DESCRIPTION + " TEXT" + ")";
 
     // USERS + GROUPS
     private static final String CREATE_USERGROUP_TABLE = "CREATE TABLE " + TABLE_USERGROUP + "("
-            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_USER_ID + " INTEGER,"
             + KEY_GROUP_ID + " INTEGER" + ")";
 
     // MEETUPS + USERS + GROUPS
     private static final String CREATE_USERGROUPMEETUP_TABLE = "CREATE TABLE " + TABLE_USERGROUPMEETUP + "("
-            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_USER_ID + " INTEGER,"
             + KEY_GROUP_ID + " INTEGER,"
             + KEY_MEETUP_ID + " STRING" + ")";
@@ -82,6 +85,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d(TAG, "Current db version is " + db.getVersion());
+
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_GROUPS_TABLE);
         db.execSQL(CREATE_USERGROUP_TABLE);
@@ -99,6 +104,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(TAG, "onUpgrade() called");
+        Log.d(TAG, "Old Version " + oldVersion + " New Version " + newVersion + " db.getVersion is " + db.getVersion());
+
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
@@ -110,11 +118,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(TAG, "onDowngrade() called");
+        Log.d(TAG, "Old Version " + oldVersion + " New Version " + newVersion + " db.getVersion is " + db.getVersion());
+        onUpgrade(db, oldVersion, newVersion);
+    }
+
     /* ------------------------ USERS CRUD methods  ------------------------ */
 
     // Adding new user
     public void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.d(TAG, "adding user: " + user.getId() + ", " + user.getName() + ", " + user.getEmail());
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, user.getName());
@@ -122,8 +138,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_PASSWORD, user.getPassword());
 
         // Inserting Row
-        db.insert(TABLE_USERS, null, values);
-        db.close(); // Closing database connection
+        long rowid = db.insert(TABLE_USERS, null, values);
+
+        // temp fix for user id
+        Log.d(TAG, "ROWID for new user: " + rowid);
+        user.setId(rowid);
+        db.close(); // Closing database connection (needs to be before updateUser() call)
+
+        updateUser(user);
+        Log.d(TAG, "added user: " + user.getId() + ", " + user.getName() + ", " + user.getEmail());
+
     }
 
     // Getting single user
@@ -253,6 +277,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Adding new group
     public long addGroup(Group group) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.d(TAG, "adding group: " + group.getId() + ", " + group.getName());
+
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, group.getName());
@@ -262,9 +288,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         long id = db.insert(TABLE_GROUPS, null, values);
         db.close(); // Closing database connection
 
-        // TODO - temporary fix
+        // temporary fix
         group.setId(id);
         updateGroup(group);
+        Log.d(TAG, "added group: " + group.getId() + ", " + group.getName());
 
         return id;
     }
@@ -320,6 +347,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Getting All groups for a given user
     public List<Group> getAllGroups(User user) {
+        Log.d(TAG, "getAllGroups called for user " + user.getName());
         List<Group> groupList = new ArrayList<Group>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_GROUPS + " WHERE "
@@ -422,6 +450,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_GROUP_ID, group.getId());
 
         db.insert(TABLE_USERGROUP, null, values);
+        Log.d(TAG, "Added user " + user.getName() + " to group " + group.getName());
         db.close(); // Closing database connection
     }
 

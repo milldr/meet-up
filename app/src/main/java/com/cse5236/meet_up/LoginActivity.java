@@ -18,9 +18,14 @@ import com.cse5236.meet_up.classes.User;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static android.content.ContentValues.TAG;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private static DatabaseHandler db;
+    private User user;
+
 
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
@@ -71,18 +76,22 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO how to specify current user
-        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-        User user = db.getUser(email, password);
-        ((MeetUp) this.getApplication()).setCurrentUser(user);
+        // specify current user
+        db = new DatabaseHandler(getApplicationContext());
+        user = db.getUser(email, password);
         db.close();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
+                        if (user != null){
+                            Log.d(TAG, "log in success");
+                            onLoginSuccess();
+                        } else {
+                            Log.d(TAG, "log in failed");
+                            onLoginFailed();
+                        }
                         progressDialog.dismiss();
                     }
                 }, 3000);
@@ -93,10 +102,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-
-                // By default we just finish the Activity and log them in automatically
+                // successful signup logic here
                 this.finish();
             }
         }
@@ -109,11 +115,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
+        Log.d(TAG, "onLoginSuccess called");
         _loginButton.setEnabled(true);
+        ((MeetUp) this.getApplication()).setCurrentUser(user);
+        Log.d(TAG, "successful log in for user " + ((MeetUp) this.getApplication()).getCurrentUser().getName());
+
         finish();
     }
 
     public void onLoginFailed() {
+
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);

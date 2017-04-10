@@ -90,10 +90,16 @@ public class GroupsFragment extends Fragment {
         String log = "Id: " + u.getId() + " ,Name: " + u.getName() + " ,Email: " + u.getEmail() + " ,Password: " + u.getPassword();
         Log.d(TAG, log);
 
+        List<Group> test = db.getAllGroups();
+        for (Group g : test){
+            Log.d(TAG, "group: " + g.getName());
+        }
+
         // dynamically fill groups
         List<Group> userGroups = db.getAllGroups(u);
         for (Group g : userGroups){
             Log.d(TAG, "Adding group layout");
+            Log.d(TAG, "group: " + g.getName());
 
             // choose the group layout, defined in group.xml
             View v = vi.inflate(R.layout.group, null);
