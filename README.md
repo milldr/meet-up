@@ -49,28 +49,28 @@ Previously, the user to meetup association was accomplished by a list of user ke
 
 ### Screenshots
 
-## Login and Sign Up
+#### Login and Sign Up
 ![Create](/screenshots/createaccount.png)
 ![Login](/screenshots/login.png)
 
-## Home Screen and Navigation
+#### Home Screen and Navigation
 ![Main](/screenshots/main.png)
 ![Navigation](/screenshots/nav.png)
 ![Overflow](/screenshots/overflow.png)
 
-## Calendar
+#### Calendar
 ![Calendar](/screenshots/cal1.png)
 ![Calendar 2](/screenshots/cal2.png)
 
-## Adding a Meetup - Appear in main page
+#### Adding a Meetup - Appear in main page
 ![Meetup](/screenshots/meetup.png)
 ![Main Page w/ MU](/screenshots/showmeetup.png)
 
-## Groups
+#### Groups
 ![Groups](/screenshots/group.png)
 ![Add Group](/screenshots/addgroup.png)
 
-## Settings - Logout
+#### Settings - Logout
 ![Logout](/screenshots/logout.png)
 
 
