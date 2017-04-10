@@ -1,5 +1,6 @@
 package com.cse5236.meet_up.fragments;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -97,7 +98,6 @@ public class NewGroupFragment extends Fragment {
         ula = new userListAdapter(context, userList);
         lv.setAdapter(ula);
 
-
         // ListView on item selected listener.
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -128,6 +128,11 @@ public class NewGroupFragment extends Fragment {
                 for (User friend : friendList){
                     db.addUserToGroup(friend, group);
                 }
+                Fragment fragment = new GroupsFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
 
             }
         });

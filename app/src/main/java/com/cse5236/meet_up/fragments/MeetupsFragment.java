@@ -13,18 +13,27 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cse5236.meet_up.MeetUp;
 import com.cse5236.meet_up.MeetupActivity;
 import com.cse5236.meet_up.R;
+import com.cse5236.meet_up.classes.Group;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.DatePickerFragment;
 import com.cse5236.meet_up.classes.MeetupList;
 import com.cse5236.meet_up.classes.TimePickerFragment;
+import com.cse5236.meet_up.classes.User;
+import com.cse5236.meet_up.classes.database.DatabaseHandler;
+import com.cse5236.meet_up.userListAdapter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -52,6 +61,10 @@ public class MeetupsFragment extends Fragment {
     private Button mTimeButton;
     private Button mAttendingCheckBox;
     private Button mNotAttendingCheckBox;
+    private ListView lv;
+    private userListAdapter ula;
+    private List<User> friendList;
+    private DatabaseHandler db;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -95,6 +108,8 @@ public class MeetupsFragment extends Fragment {
         UUID meetupId = (UUID) getActivity().getIntent()
                 .getSerializableExtra(MeetupActivity.EXTRA_MEETUP_ID);
         mMeetup = MeetupList.get(getActivity()).getMeetup(meetupId);
+        db = new DatabaseHandler(this.getActivity());
+        friendList = new ArrayList<>();
 
     }
 
@@ -109,6 +124,7 @@ public class MeetupsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_meetups, container, false);
+        Context context = getActivity().getApplicationContext();
 
         mTitleField = (EditText)v.findViewById(R.id.meetup_title);
         mTitleField.setText(mMeetup.getName());
@@ -182,6 +198,41 @@ public class MeetupsFragment extends Fragment {
             public void onClick(View v) {
                 // Set the meetups's attending property to false
                 mMeetup.setAttending(false);
+            }
+        });
+
+        List<User> userList = db.getAllUsers();
+
+        lv = (ListView) v.findViewById(R.id.user1_list);
+        ula = new userListAdapter(context, userList);
+        lv.setAdapter(ula);
+
+        // ListView on item selected listener.
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                User friend = ula.getItem(position);
+                if (!friendList.contains(friend)){
+                    friendList.add(friend);
+                }
+            }
+        });
+
+        Button save = (Button) v.findViewById(R.id.save_users);
+        save.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String name = mTitleField.getText().toString();
+                User currentUser = ((MeetUp) getActivity().getApplication()).getCurrentUser();
+                db.addUserToMeetup(currentUser, mMeetup);
+                for (User friend : friendList){
+                    db.addUserToMeetup(friend, mMeetup);
+                }
+
             }
         });
 

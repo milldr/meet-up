@@ -2,6 +2,7 @@ package com.cse5236.meet_up;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,7 +14,10 @@ import android.widget.Toast;
 
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
+import com.cse5236.meet_up.fragments.NewGroupFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -43,14 +47,12 @@ public class CalendarActivity extends AppCompatActivity {
                 String events = "";
                 d = new GregorianCalendar(i, i1, i2).getTime();
                 for (Meetup meet : meets) {
-                    if (meet.getDate().equals(d)) {
+                    if ((meet.getDate().getDate() == d.getDate()) && (meet.getDate().getMonth() == d.getMonth()) && (meet.getDate().getYear() == d.getYear())) {
                         events += meet.getName();
                         events += ",";
                     }
                 }
-                dateDisplay.setText("Date: " + i1 + " / " + i2 + " / " + i + "\n" + "Events:\n" + events + "\n");
-                //TODO: Add events for the selected date to dateDisplay
-                Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();
+                dateDisplay.setText("Date: " + (i1 + 1) + " / " + i2 + " / " + i + "\n" + "Events:\n" + events + "\n");
             }
         });
     }
@@ -69,13 +71,22 @@ public class CalendarActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         // Activate the navigation drawer toggle
-        //if (mDrawerToggle.onOptionsItemSelected(item)) {
-        //    return true;
-        //} else
         if (id == R.id.add_meetup) {
+            Meetup meetup = new Meetup();
+            MeetupList.get(this).addMeetup(meetup);
+            Intent intent = MeetupPagerActivity
+                    .newIntent(this, meetup.getId());
+            startActivity(intent);
+            return true;
             //create a new meetup
         } else if (id == R.id.add_group) {
             //create a new group
+            Fragment fragment = new NewGroupFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+
         } else if (id == R.id.settings) {
             //go to settings
             Fragment fragment = new SettingsFragment();

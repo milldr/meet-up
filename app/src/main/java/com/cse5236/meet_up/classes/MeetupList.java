@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.cse5236.meet_up.classes.database.MeetupBaseHelper;
+import com.cse5236.meet_up.classes.database.DatabaseHandler;
 import com.cse5236.meet_up.classes.database.MeetupCursorWrapper;
 import com.cse5236.meet_up.classes.database.MeetupDbSchema;
 
@@ -31,7 +31,7 @@ public class MeetupList {
     }
     private MeetupList(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new MeetupBaseHelper(mContext)
+        mDatabase = new DatabaseHandler(mContext)
                 .getWritableDatabase();
     }
 

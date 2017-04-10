@@ -33,6 +33,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,63 +49,46 @@
             android:text="@string/nattending_button"
             />
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/meetup_search_grouplabel"
-        style="?android:listSeparatorTextViewStyle"
-        />
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/search_users"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true" />
-
-        <ListView
-            android:id="@+id/list_view_users"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/search_users" />
-
-    </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/meetup_search_userlabel"
-        style="?android:listSeparatorTextViewStyle"
-        />
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.SearchView
-            android:id="@+id/search_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true" />
-
-        <ListView
-            android:id="@+id/list_view_groups"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/search_groups" />
-
-    </RelativeLayout>
-
-    <Button android:id="@+id/meetup_delete"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete_button"
-        />
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_users"
+            style="?android:listSeparatorTextViewStyle"
+            />
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/user1_list" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_groups"
+            style="?android:listSeparatorTextViewStyle"
+            />
+
+        <Button
+            android:id="@+id/save_users"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"/>
+
+        <Button android:id="@+id/meetup_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_button"
+            />
+
+        </LinearLayout>
+
+
 
 </LinearLayout>

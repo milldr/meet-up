@@ -30,5 +30,7 @@
     <string name="default_name">name</string>
     <string name="default_description">group description here</string>
     <string name="default_email">default@email.com</string>
+    <string name="add_users">Select Users:</string>
+    <string name="add_groups">Select Groups:</string>
 
 </resources>
