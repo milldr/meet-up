@@ -22,7 +22,6 @@ import android.view.MenuInflater;
 import com.android.volley.RequestQueue;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
-import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MeetupListFragment;
 import com.cse5236.meet_up.fragments.MeetupsFragment;
@@ -32,7 +31,7 @@ import com.cse5236.meet_up.fragments.SettingsFragment;
 import java.util.UUID;
 
 public class MeetupActivity extends AppCompatActivity
-        implements NewGroupFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
+        implements NewGroupFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
         GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MeetupActivity";
@@ -130,13 +129,19 @@ public class MeetupActivity extends AppCompatActivity
 
     private void selectItem(int position) {
         // specify the new fragment
+        boolean isCal = false;
         Fragment fragment;
         switch (position){
             case(0):
                 fragment = new MeetupListFragment();
                 break;
             case(1):
-                fragment = new CalendarFragment();
+                //unnecessary but compiler was complaining
+                fragment = new Fragment();
+                isCal = true;
+                //start calendar intent
+                Intent intent = new Intent(this, CalendarActivity.class);
+                startActivity(intent);
                 break;
             case(2):
                 fragment = new GroupsFragment();
@@ -149,17 +154,18 @@ public class MeetupActivity extends AppCompatActivity
                 break;
         }
 
+        if (!isCal) {
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
-
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        //setTitle(mFragmentTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+            // Highlight the selected item, update the title, and close the drawer
+            mDrawerList.setItemChecked(position, true);
+            //setTitle(mFragmentTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
     }
 
     public void setTitle(String title) {
