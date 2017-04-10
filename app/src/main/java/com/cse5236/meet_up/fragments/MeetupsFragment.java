@@ -29,6 +29,7 @@ import com.cse5236.meet_up.classes.MeetupList;
 import com.cse5236.meet_up.classes.TimePickerFragment;
 import com.cse5236.meet_up.classes.User;
 import com.cse5236.meet_up.classes.database.DatabaseHandler;
+import com.cse5236.meet_up.groupListAdapter;
 import com.cse5236.meet_up.userListAdapter;
 
 import java.util.ArrayList;
@@ -62,7 +63,9 @@ public class MeetupsFragment extends Fragment {
     private Button mAttendingCheckBox;
     private Button mNotAttendingCheckBox;
     private ListView lv;
+    private ListView gv;
     private userListAdapter ula;
+    private groupListAdapter gla;
     private List<User> friendList;
     private DatabaseHandler db;
 
@@ -202,10 +205,14 @@ public class MeetupsFragment extends Fragment {
         });
 
         List<User> userList = db.getAllUsers();
+        List<Group> groupList = db.getAllGroups();
 
         lv = (ListView) v.findViewById(R.id.user1_list);
+        gv = (ListView) v.findViewById(R.id.group_list);
+        gla = new groupListAdapter(context, groupList);
         ula = new userListAdapter(context, userList);
         lv.setAdapter(ula);
+        gv.setAdapter(gla);
 
         // ListView on item selected listener.
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -221,6 +228,25 @@ public class MeetupsFragment extends Fragment {
             }
         });
 
+        // ListView on item selected listener.
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                Group group = gla.getItem(position);
+                List<User> groupuserList = db.getAllUsers(group);
+                for (int i = 0; i < groupuserList.size(); i++ ) {
+                    User friend = groupuserList.get(i);
+                    if (!friendList.contains(friend)) {
+                        friendList.add(friend);
+                    }
+                }
+            }
+        });
+
+
         Button save = (Button) v.findViewById(R.id.save_users);
         save.setOnClickListener( new View.OnClickListener() {
 
@@ -232,7 +258,11 @@ public class MeetupsFragment extends Fragment {
                 for (User friend : friendList){
                     db.addUserToMeetup(friend, mMeetup);
                 }
-
+                Fragment fragment = new MeetupListFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
             }
         });
 

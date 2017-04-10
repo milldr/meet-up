@@ -22,16 +22,18 @@ import android.view.MenuInflater;
 import com.android.volley.RequestQueue;
 import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.MeetupList;
+import com.cse5236.meet_up.fragments.CalendarFragment;
 import com.cse5236.meet_up.fragments.GroupsFragment;
 import com.cse5236.meet_up.fragments.MeetupListFragment;
 import com.cse5236.meet_up.fragments.MeetupsFragment;
 import com.cse5236.meet_up.fragments.NewGroupFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
+import com.cse5236.meet_up.fragments.WelcomeFragment;
 
 import java.util.UUID;
 
 public class MeetupActivity extends AppCompatActivity
-        implements NewGroupFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
+        implements CalendarFragment.OnFragmentInteractionListener, NewGroupFragment.OnFragmentInteractionListener, WelcomeFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
         GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MeetupActivity";
@@ -137,11 +139,7 @@ public class MeetupActivity extends AppCompatActivity
                 break;
             case(1):
                 //unnecessary but compiler was complaining
-                fragment = new Fragment();
-                isCal = true;
-                //start calendar intent
-                Intent intent = new Intent(this, CalendarActivity.class);
-                startActivity(intent);
+                fragment = new CalendarFragment();
                 break;
             case(2):
                 fragment = new GroupsFragment();
