@@ -70,15 +70,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //initialize opening fragment
-        if (savedInstanceState == null) {
-            selectItem(0);
-            Fragment fragment = new MeetupListFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-        }
+        
     }
 
     @Override

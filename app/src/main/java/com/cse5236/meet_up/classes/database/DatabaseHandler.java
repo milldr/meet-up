@@ -12,7 +12,9 @@ import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by daniel on 3/26/17.
@@ -342,6 +344,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         return groupList;
+    }
+
+    // Getting All groups for a given user
+    public List<Meetup> getAllMeetups(User user) {
+        List<Meetup> meetupList = new ArrayList<Meetup>();
+
+        String selectQuery = "SELECT  * FROM " + MeetupDbSchema.MeetupTable.TITLE + " WHERE "
+                + KEY_MEETUP_ID + " IN (SELECT "
+                + KEY_MEETUP_ID + " FROM "
+                + TABLE_USERGROUPMEETUP + " WHERE "
+                + KEY_USER_ID + " = " + user.getId()
+                + ")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                int uuidcolumn = c.getColumnIndex("uuid");
+                int namecolumn = c.getColumnIndex("meetup_name");
+                int datecolumn = c.getColumnIndex("date");
+                int attending = c.getColumnIndex("attending");
+                Meetup meetup = new Meetup();
+                meetup.setId(UUID.fromString(c.getString(uuidcolumn)));
+                meetup.setName(c.getString(namecolumn));
+                long date = c.getLong(datecolumn);
+                int isAttending = c.getInt(attending);
+                meetup.setDate(new Date(date));
+                meetup.setAttending(isAttending != 0);
+                meetupList.add(meetup);
+            } while (c.moveToNext());
+        }
+
+        return meetupList;
     }
 
     // Getting groups Count
