@@ -18,6 +18,8 @@ import com.cse5236.meet_up.classes.User;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static android.content.ContentValues.TAG;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -73,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // TODO how to specify current user
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+
         User user = db.getUser(email, password);
         ((MeetUp) this.getApplication()).setCurrentUser(user);
         db.close();

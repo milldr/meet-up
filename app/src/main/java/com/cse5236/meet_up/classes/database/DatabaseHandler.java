@@ -13,6 +13,8 @@ import com.cse5236.meet_up.classes.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by daniel on 3/26/17.
  *
@@ -24,7 +26,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     // Database Name
     private static final String DATABASE_NAME = "databaseManager.db";
@@ -33,6 +35,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_USERS = "users";
     private static final String TABLE_GROUPS = "groups";
     private static final String TABLE_USERGROUP = "user_group";
+    private static final String TABLE_MEETUPS = "meetups";
+
 
 
     // Table Columns names
@@ -73,14 +77,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d(TAG, "Current db version is " + db.getVersion());
+
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_GROUPS_TABLE);
         db.execSQL(CREATE_USERGROUP_TABLE);
+
     }
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(TAG, "onUpgrade() called");
+        Log.d(TAG, "Old Version " + oldVersion + " New Version " + newVersion + " db.getVersion is " + db.getVersion());
+
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
@@ -88,6 +98,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // Create tables again
         onCreate(db);
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(TAG, "onDowngrade() called");
+        Log.d(TAG, "Old Version " + oldVersion + " New Version " + newVersion + " db.getVersion is " + db.getVersion());
+        onUpgrade(db, oldVersion, newVersion);
     }
 
     /* ------------------------ USERS CRUD methods  ------------------------ */
@@ -99,7 +116,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, user.getName());
         values.put(KEY_EMAIL, user.getEmail());
-        values.put(KEY_PASSWORD, user.getPassword());
+        values.put( , user.getPassword());
 
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
@@ -369,5 +386,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_USERGROUP, null, values);
         db.close(); // Closing database connection
     }
+
 
 }

@@ -30,6 +30,8 @@ import com.cse5236.meet_up.fragments.MeetupsFragment;
 import com.cse5236.meet_up.fragments.NewGroupFragment;
 import com.cse5236.meet_up.fragments.SettingsFragment;
 
+import static android.content.ContentValues.TAG;
+
 public class MainActivity extends AppCompatActivity
         implements NewGroupFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener, MeetupListFragment.OnFragmentInteractionListener,
         GroupsFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener{
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
+
         setContentView(R.layout.activity_main);
 
         // login activity first
