@@ -20,6 +20,15 @@
 
 
 ## Non-functional Use Cases
+
++ Memory, the app will use less than 15 MB
++ Availability, the app will target SDK version 25 and have a minimum SDK of 15
++ Usability, the app will have text written buttons to clearly display what is expected of each button
++ Security, the app will not display user passwords anywhere
++ Reliability, the app will retain user, group, and meetup information as specified by user input
++ Legal, the app request an internet connection if required. There are no other privacy requirements from the user device
+
+## Functional Use Cases
 #### Accounts:
 
 + Account creation - User can create an account.
