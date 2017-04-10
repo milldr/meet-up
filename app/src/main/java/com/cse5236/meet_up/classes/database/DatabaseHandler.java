@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.cse5236.meet_up.classes.Group;
+import com.cse5236.meet_up.classes.Meetup;
 import com.cse5236.meet_up.classes.User;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 8;
 
     // Database Name
     private static final String DATABASE_NAME = "databaseManager.db";
@@ -33,6 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_USERS = "users";
     private static final String TABLE_GROUPS = "groups";
     private static final String TABLE_USERGROUP = "user_group";
+    private static final String TABLE_USERGROUPMEETUP = "user_group_meetup";
 
 
     // Table Columns names
@@ -43,6 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_GROUP_ID = "group_id";
+    private static final String KEY_MEETUP_ID = "uuid";
 
     // USERS
     private static final String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
@@ -63,8 +66,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             + KEY_USER_ID + " INTEGER,"
             + KEY_GROUP_ID + " INTEGER" + ")";
 
-    // MEETUPS
-    // TODO
+    // MEETUPS + USERS + GROUPS
+    private static final String CREATE_USERGROUPMEETUP_TABLE = "CREATE TABLE " + TABLE_USERGROUPMEETUP + "("
+            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_USER_ID + " INTEGER,"
+            + KEY_GROUP_ID + " INTEGER,"
+            + KEY_MEETUP_ID + " STRING" + ")";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -76,6 +83,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_GROUPS_TABLE);
         db.execSQL(CREATE_USERGROUP_TABLE);
+        db.execSQL(CREATE_USERGROUPMEETUP_TABLE);
+        db.execSQL("create table " + MeetupDbSchema.MeetupTable.TITLE + "(" +
+                " _id integer primary key autoincrement, " +
+                MeetupDbSchema.MeetupTable.Cols.UUID + ", " +
+                MeetupDbSchema.MeetupTable.Cols.NAME + ", " +
+                MeetupDbSchema.MeetupTable.Cols.DATE + ", " +
+                MeetupDbSchema.MeetupTable.Cols.ATTENDING +
+                ")"
+        );
     }
 
     // Upgrading database
@@ -85,6 +101,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERGROUP);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERGROUPMEETUP);
+        db.execSQL("DROP TABLE IF EXISTS " + MeetupDbSchema.MeetupTable.TITLE);
 
         // Create tables again
         onCreate(db);
@@ -367,6 +385,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_GROUP_ID, group.getId());
 
         db.insert(TABLE_USERGROUP, null, values);
+        db.close(); // Closing database connection
+    }
+
+    public void addUserToMeetup(User user, Meetup meetup){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_ID, user.getId());
+        values.put(KEY_MEETUP_ID, meetup.getId().toString());
+
+        db.insert(TABLE_USERGROUPMEETUP, null, values);
         db.close(); // Closing database connection
     }
 

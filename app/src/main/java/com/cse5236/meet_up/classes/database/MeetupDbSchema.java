@@ -11,7 +11,7 @@ public class MeetupDbSchema {
 
         public static final class Cols {
             public static final String UUID = "uuid";
-            public static final String NAME = "name";
+            public static final String NAME = "meetup_name";
             public static final String DATE = "date";
             public static final String ATTENDING = "attending";
         }
