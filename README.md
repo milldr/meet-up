@@ -9,9 +9,9 @@
 #### CSE 5236 - Mobile Apps
 
 ------
-## Part 5
+# Part 5
 
-### Installing
+## Installing
 
 1. Clone the repository
 2. Open it in Android Studio
@@ -19,7 +19,7 @@
 4. Run on your chosen emulator (or physical device).
 
 
-### Non-functional Use Cases
+## Non-functional Use Cases
 #### Accounts:
 
 + Account creation - User can create an account.
@@ -47,7 +47,7 @@ Previously, the user to meetup association was accomplished by a list of user ke
 ![After](/screenshots/after.png)
 
 
-### Screenshots
+## Screenshots
 
 #### Login and Sign Up
 ![Create](/screenshots/createaccount.png)
