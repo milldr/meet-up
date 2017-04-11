@@ -128,7 +128,6 @@ public class MainActivity extends AppCompatActivity
 
     private void selectItem(int position) {
         // specify the new fragment
-        boolean isCal = false;
         Fragment fragment;
         switch (position){
             case(0):

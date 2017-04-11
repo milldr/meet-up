@@ -131,7 +131,6 @@ public class MeetupActivity extends AppCompatActivity
 
     private void selectItem(int position) {
         // specify the new fragment
-        boolean isCal = false;
         Fragment fragment;
         switch (position){
             case(0):
@@ -152,18 +151,6 @@ public class MeetupActivity extends AppCompatActivity
                 break;
         }
 
-        if (!isCal) {
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-
-            // Highlight the selected item, update the title, and close the drawer
-            mDrawerList.setItemChecked(position, true);
-            //setTitle(mFragmentTitles[position]);
-            mDrawerLayout.closeDrawer(mDrawerList);
-        }
     }
 
     public void setTitle(String title) {
